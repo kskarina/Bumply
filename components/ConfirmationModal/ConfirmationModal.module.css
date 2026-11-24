@@ -1,0 +1,37 @@
+.title {
+  margin-bottom: 24px;
+  font-size: 22px;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.cancelBtn,
+.confirmBtn {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 999px;
+  transition: background-color var(--transition);
+}
+
+.cancelBtn {
+  background-color: var(--color-bg);
+}
+
+.confirmBtn {
+  background-color: var(--color-accent);
+}
+
+.confirmBtn:hover,
+.confirmBtn:focus-visible {
+  background-color: var(--color-accent-dark);
+}
+
+.confirmBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

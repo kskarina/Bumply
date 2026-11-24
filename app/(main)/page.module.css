@@ -1,0 +1,7 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* сітку для десктопу зробити за макетом */

@@ -1,0 +1,5 @@
+.journeyDetails {
+  padding: 16px;
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+}
