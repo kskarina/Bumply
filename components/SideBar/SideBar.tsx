@@ -6,13 +6,15 @@ import clsx from 'clsx';
 import { useAuthStore } from '@/lib/store/authStore';
 import UserBar from '@/components/UserBar/UserBar';
 import AuthBar from '@/components/AuthBar/AuthBar';
+import Logo from '@/components/Logo/Logo';
+import Icon, { type IconName } from '@/components/Icon/Icon';
 import css from './SideBar.module.css';
 
-const navItems = [
-  { href: '/', label: 'Мій день' },
-  { href: '/journey', label: 'Подорож' },
-  { href: '/diary', label: 'Щоденник' },
-  { href: '/profile', label: 'Профіль' },
+const navItems: { href: string; label: string; icon: IconName }[] = [
+  { href: '/', label: 'Мій день', icon: 'today' },
+  { href: '/journey', label: 'Подорож', icon: 'conversion-path' },
+  { href: '/diary', label: 'Щоденник', icon: 'book-2' },
+  { href: '/profile', label: 'Профіль', icon: 'account-circle' },
 ];
 
 interface SideBarProps {
@@ -32,23 +34,22 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
       {isOpen && <div className={css.overlay} onClick={onClose} />}
       <aside className={clsx(css.sidebar, isOpen && css.open)}>
         <div className={css.top}>
-          <Link href="/" className={css.logo} onClick={onClose}>
-            Лелека
-          </Link>
+          <Logo onClick={onClose} />
           <button type="button" className={css.closeBtn} onClick={onClose} aria-label="Закрити меню">
-            ✕
+            <Icon name="close" size={32} />
           </button>
         </div>
 
         <nav>
           <ul className={css.navList}>
-            {navItems.map(({ href, label }) => (
+            {navItems.map(({ href, label, icon }) => (
               <li key={href}>
                 <Link
                   href={isAuthenticated ? href : '/auth/login'}
                   className={clsx(css.navLink, isActive(href) && css.active)}
                   onClick={onClose}
                 >
+                  <Icon name={icon} />
                   {label}
                 </Link>
               </li>

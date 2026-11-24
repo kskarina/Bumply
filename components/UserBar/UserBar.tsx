@@ -6,6 +6,7 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { useLogout } from '@/hooks/useLogout';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 import Loader from '@/components/Loader/Loader';
+import Icon from '@/components/Icon/Icon';
 import css from './UserBar.module.css';
 
 export default function UserBar() {
@@ -17,11 +18,13 @@ export default function UserBar() {
 
   return (
     <div className={css.userBar}>
-      {user.avatarUrl ? (
-        <Image src={user.avatarUrl} alt={user.name} width={40} height={40} className={css.avatar} />
-      ) : (
-        <span className={css.avatar} />
-      )}
+      <Image
+        src={user.avatarUrl || '/images/avatar-placeholder.webp'}
+        alt={user.name}
+        width={40}
+        height={40}
+        className={css.avatar}
+      />
       <div className={css.info}>
         <p className={css.name}>{user.name}</p>
         <p className={css.email}>{user.email}</p>
@@ -32,7 +35,7 @@ export default function UserBar() {
         onClick={() => setIsConfirmOpen(true)}
         aria-label="Вийти"
       >
-        ⎋
+        <Icon name="logout" />
       </button>
 
       {isConfirmOpen && (

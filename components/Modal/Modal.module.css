@@ -24,12 +24,15 @@
   position: absolute;
   top: 12px;
   right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 32px;
   height: 32px;
   padding: 0;
   border: none;
   background: transparent;
-  font-size: 18px;
+  color: var(--color-text);
 }
 
 @media (min-width: 768px) {

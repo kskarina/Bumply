@@ -67,11 +67,43 @@ app/
   api/[...path]/route.ts   проксі до бекенду (cookie з токенами живуть на нашому домені)
 components/                кожен компонент у своїй папці: Name.tsx + Name.module.css
 hooks/                     власні хуки
+public/
+  logo.svg                 логотип
+  sprite.svg               іконки з макету (спрайт)
+  images/                  ілюстрації для auth, онбордингу і заглушка аватара
 lib/api/clientApi.ts       усі запити до API
 lib/store/authStore.ts     Zustand-стор користувача
 middleware.ts              захист приватних сторінок і оновлення сесії
 types/                     TypeScript-типи даних з бекенду
 ```
+
+### Іконки, логотип і зображення
+
+Іконки підключаються через компонент `Icon`, колір змінюється через CSS-властивість `color`:
+
+```tsx
+import Icon from '@/components/Icon/Icon';
+
+<Icon name="edit-square" size={24} />
+```
+
+Доступні іконки: `account-circle`, `book-2`, `chair`, `close`, `conversion-path`, `delete-forever`, `edit-square`, `fitness-center`, `fork-spoon`, `google`, `keyboard-arrow-down`, `keyboard-arrow-up`, `logout`, `menu`, `today`.
+
+Логотип — компонент `Logo` (посилання на головну).
+Зображення з `public/images` підключаються через `next/image`:
+
+```tsx
+<Image src="/images/auth-login.webp" alt="" width={720} height={900} />
+```
+
+| Файл | Де використовується |
+| --- | --- |
+| `auth-register.webp` | сторінка реєстрації |
+| `auth-login.webp` | сторінка входу |
+| `onboarding.webp` | онбординг |
+| `avatar-placeholder.webp` | аватар за замовчуванням |
+
+Ілюстрації тижнів (малюк, авокадо тощо) приходять з бекенду, у проєкт їх додавати не потрібно.
 
 ### Як працює авторизація
 

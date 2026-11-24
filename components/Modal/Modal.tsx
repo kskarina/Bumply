@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import Icon from '@/components/Icon/Icon';
 import css from './Modal.module.css';
 
 interface ModalProps {
@@ -40,7 +41,7 @@ export default function Modal({ onClose, children }: ModalProps) {
     <div className={css.backdrop} onClick={handleBackdropClick} role="presentation">
       <div className={css.modal} role="dialog" aria-modal="true">
         <button type="button" className={css.closeBtn} onClick={onClose} aria-label="Закрити">
-          ✕
+          <Icon name="close" />
         </button>
         {children}
       </div>
