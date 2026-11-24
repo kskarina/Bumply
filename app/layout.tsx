@@ -1,16 +1,20 @@
 import type { Metadata } from 'next';
-import { Comfortaa, Lato } from 'next/font/google';
+import { Comfortaa } from 'next/font/google';
+import localFont from 'next/font/local';
 import { Toaster } from 'react-hot-toast';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import 'modern-normalize';
 import './globals.css';
 
-// шрифти з макету
-// у Google Fonts Lato має тільки 400 і 700 (без 500/600) і не має кирилиці
-const lato = Lato({
-  subsets: ['latin', 'latin-ext'],
-  weight: ['400', '700'],
+// Lato 2.0 підключений локально: у Google Fonts немає кирилиці і жирностей 500/600
+const lato = localFont({
+  src: [
+    { path: './fonts/Lato-Regular.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/Lato-Medium.woff2', weight: '500', style: 'normal' },
+    { path: './fonts/Lato-SemiBold.woff2', weight: '600', style: 'normal' },
+    { path: './fonts/Lato-Bold.woff2', weight: '700', style: 'normal' },
+  ],
   variable: '--font-lato',
   display: 'swap',
 });

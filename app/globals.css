@@ -1,38 +1,98 @@
-/* Кольори та шрифти уточнити за UI Kit у Figma */
+/* Значення взяті з UI Kit у Figma (Color Scheme "Pink", Typography, UI Styles) */
 :root {
-  --color-bg: #f2f2f2;
-  --color-surface: #ffffff;
+  /* кольори */
+  --color-bg: #ffffff; /* фон сторінки, сайдбару, модалок */
+  --color-surface: #fff4f6; /* картки, блоки, активний пункт меню */
+  --color-surface-alt: #ffdae0; /* кнопки */
+  --color-accent: #ffcbd3; /* наведення на кнопки, акценти */
+  --color-accent-dark: #cca2a8;
   --color-text: #000000;
   --color-text-secondary: rgba(0, 0, 0, 0.6);
-  --color-accent: #ffbdc0;
-  --color-accent-dark: #e48c90;
   --color-border: rgba(0, 0, 0, 0.15);
-  --color-error: #d9534f;
+  --color-input-bg: rgba(0, 0, 0, 0.05);
+  --color-error: #c60000;
 
-  --radius: 12px;
+  /* заокруглення */
+  --radius-xs: 8px;
+  --radius-sm: 24px;
+  --radius: 32px;
+  --radius-lg: 40px;
+  --radius-pill: 100px;
+
   --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
+  /* шрифти: Lato — основний текст, Comfortaa — заголовки */
   --font-main: var(--font-lato), system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-accent: var(--font-comfortaa), sans-serif;
 }
 
-/* Додаткове завдання: теми за статтю дитини */
-[data-theme='girl'] {
-  --color-accent: #ffbdc0;
-}
-
-[data-theme='boy'] {
-  --color-accent: #b9e3f5;
-}
-
-[data-theme='neutral'] {
-  --color-accent: #d4e8c8;
-}
-
 html {
   font-family: var(--font-main);
+  font-size: 16px;
+  line-height: 1.5;
   color: var(--color-text);
   background-color: var(--color-bg);
+}
+
+/* Заголовки (Display у UI Kit): Comfortaa Bold, letter-spacing 1% */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-accent);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.display-xxl {
+  font-size: 56px;
+  line-height: 1.2;
+}
+
+.display-xl {
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+.display-lg {
+  font-size: 40px;
+  line-height: 1.3;
+}
+
+.display-md {
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+.display-sm {
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+.display-xs {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+/* Текст (Text у UI Kit): Lato, line-height 160% */
+.text-lg {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.text-md {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.text-sm {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.text-xs {
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 body {
