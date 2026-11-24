@@ -139,3 +139,4 @@ import Icon from '@/components/Icon/Icon';
 | Roman Drok ([@rookglli](https://github.com/rookglli)) | Developer |
 | Orest Yarych ([@orest-yarych](https://github.com/orest-yarych)) | Developer |
 | [@OleksandrTry1](https://github.com/OleksandrTry1) | Developer |
+| Andrii Kushnirenko ([@akushnirenko10](https://github.com/akushnirenko10)) | Developer |
