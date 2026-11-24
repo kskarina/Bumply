@@ -134,4 +134,7 @@ import Icon from '@/components/Icon/Icon';
 | Учасник | Роль |
 | --- | --- |
 | Karina ([@kskarina](https://github.com/kskarina)) | Team Lead |
-| | Developer |
+| Danylo Linhe ([@Rik24](https://github.com/Rik24)) | Scrum Master |
+| [@DarkReud](https://github.com/DarkReud) | Developer |
+| Roman Drok ([@rookglli](https://github.com/rookglli)) | Developer |
+| Orest Yarych ([@orest-yarych](https://github.com/orest-yarych)) | Developer |
