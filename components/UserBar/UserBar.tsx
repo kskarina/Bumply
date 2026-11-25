@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { useAuthStore } from '@/lib/store/authStore';
 import { useLogout } from '@/hooks/useLogout';
@@ -48,7 +49,8 @@ export default function UserBar() {
           isLoading={isPending}
         />
       )}
-      {isPending && <Loader fullScreen />}
+      {/* через портал: у мобільному меню сайдбар має transform, і fixed-лоадер інакше закрив би тільки меню */}
+      {isPending && createPortal(<Loader fullScreen />, document.body)}
     </div>
   );
 }

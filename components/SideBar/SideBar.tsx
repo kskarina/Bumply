@@ -26,6 +26,9 @@ interface SideBarProps {
 export default function SideBar({ isOpen, onClose }: SideBarProps) {
   const pathname = usePathname();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const isAuthChecked = useAuthStore((s) => s.isAuthChecked);
+  // поки перевірка сесії не завершилась, не показуємо гостьовий стан
+  const isGuest = isAuthChecked && !isAuthenticated;
 
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
@@ -45,7 +48,7 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
             {navItems.map(({ href, label, icon }) => (
               <li key={href}>
                 <Link
-                  href={isAuthenticated ? href : '/auth/login'}
+                  href={isGuest ? '/auth/login' : href}
                   className={clsx(css.navLink, isActive(href) && css.active)}
                   onClick={onClose}
                 >
@@ -57,7 +60,10 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
           </ul>
         </nav>
 
-        <div className={css.bottom}>{isAuthenticated ? <UserBar /> : <AuthBar />}</div>
+        <div className={css.bottom}>
+          {isAuthenticated && <UserBar />}
+          {isGuest && <AuthBar />}
+        </div>
       </aside>
     </>
   );
