@@ -1,10 +1,11 @@
 'use client';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import css from './RegistrationForm.module.css';
 import { useId, useState } from 'react';
 import { register, RegisterRequest } from '@/lib/api/clientApi';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
+import { AxiosError } from 'axios';
 
 export type ApiError = AxiosError<{ error: string }>;
 
@@ -111,7 +112,7 @@ export default function RegistrationForm() {
             </div>
           </label>
           <button type="submit" className={css.button}>
-            Log in
+            Зареєструватись
           </button>
           {error && <p>{error}</p>}
         </Form>
