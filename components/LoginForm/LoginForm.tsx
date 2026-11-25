@@ -4,7 +4,7 @@ import css from './LoginForm.module.css';
 export default function LoginForm() {
   return (
     <section className={css.loginForm}>
-      <h2>LoginForm</h2>
+      <h2>Вхід</h2>
     </section>
   );
 }
