@@ -2,6 +2,7 @@ export type IconName =
   | 'account-circle'
   | 'book-2'
   | 'chair'
+  | 'chevron-right'
   | 'close'
   | 'conversion-path'
   | 'delete-forever'

@@ -1,9 +1,17 @@
 .userBar {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 4px;
   padding-top: 16px;
   border-top: 1px solid var(--color-border);
+}
+
+.profile {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
 }
 
 .avatar {
@@ -16,26 +24,45 @@
 }
 
 .info {
-  flex: 1;
   min-width: 0;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .name {
-  font-weight: 700;
+  font-weight: 500;
 }
 
+.name,
 .email {
   overflow: hidden;
-  font-size: 14px;
-  color: var(--color-text-secondary);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .logoutBtn {
   display: flex;
-  padding: 0;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
   border: none;
   background: transparent;
   color: var(--color-text);
+}
+
+@media (min-width: 1440px) {
+  .userBar {
+    padding-top: 24px;
+  }
+
+  .profile {
+    gap: 12px;
+  }
+
+  .info {
+    font-size: 14px;
+  }
 }

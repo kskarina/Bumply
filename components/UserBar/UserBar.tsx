@@ -19,16 +19,18 @@ export default function UserBar() {
 
   return (
     <div className={css.userBar}>
-      <Image
-        src={user.avatarUrl || '/images/avatar-placeholder.webp'}
-        alt={user.name}
-        width={40}
-        height={40}
-        className={css.avatar}
-      />
-      <div className={css.info}>
-        <p className={css.name}>{user.name}</p>
-        <p className={css.email}>{user.email}</p>
+      <div className={css.profile}>
+        <Image
+          src={user.avatarUrl || '/images/avatar-placeholder.webp'}
+          alt={user.name}
+          width={40}
+          height={40}
+          className={css.avatar}
+        />
+        <div className={css.info}>
+          <p className={css.name}>{user.name}</p>
+          <p className={css.email}>{user.email}</p>
+        </div>
       </div>
       <button
         type="button"

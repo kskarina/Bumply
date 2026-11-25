@@ -37,14 +37,14 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
       {isOpen && <div className={css.overlay} onClick={onClose} />}
       <aside className={clsx(css.sidebar, isOpen && css.open)}>
         <div className={css.top}>
-          <Logo onClick={onClose} />
+          <Logo onClick={onClose} size="lg" />
           <button type="button" className={css.closeBtn} onClick={onClose} aria-label="Закрити меню">
             <Icon name="close" size={32} />
           </button>
         </div>
 
-        <nav>
-          <ul className={css.navList}>
+        <nav className={css.nav}>
+          <ul>
             {navItems.map(({ href, label, icon }) => (
               <li key={href}>
                 <Link

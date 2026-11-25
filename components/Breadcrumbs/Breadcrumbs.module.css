@@ -1,25 +1,42 @@
 .breadcrumbs {
-  font-size: 14px;
+  padding: 24px 32px 0;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .list {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  align-items: center;
+  gap: 8px;
 }
 
-.item:not(:last-child)::after {
-  content: '/';
-  margin-left: 4px;
-  color: var(--color-text-secondary);
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .link {
-  color: var(--color-text-secondary);
+  color: var(--color-text);
   transition: color var(--transition);
 }
 
 .link:hover,
 .link:focus-visible {
-  color: var(--color-text);
+  color: var(--color-text-muted);
+}
+
+.current {
+  color: var(--color-text-muted);
+}
+
+.separator {
+  flex-shrink: 0;
+}
+
+@media (min-width: 1440px) {
+  .breadcrumbs {
+    font-size: 14px;
+  }
 }

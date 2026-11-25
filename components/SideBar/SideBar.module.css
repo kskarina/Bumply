@@ -1,8 +1,10 @@
+/* Розміри — за макетом: мобілка/планшет (меню 300px) і десктоп (сайдбар 312px) */
+
 .overlay {
   position: fixed;
   inset: 0;
   z-index: 900;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .sidebar {
@@ -12,10 +14,9 @@
   z-index: 950;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 320px;
+  width: 300px;
+  max-width: 100%;
   height: 100vh;
-  padding: 20px;
   background-color: var(--color-bg);
   transform: translateX(-100%);
   transition: transform var(--transition);
@@ -29,7 +30,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 32px;
+  padding: 16px 24px;
 }
 
 .closeBtn {
@@ -40,18 +41,21 @@
   color: var(--color-text);
 }
 
-.navList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px;
 }
 
 .navLink {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
+  gap: 12px;
+  height: 40px;
+  padding: 8px;
   border-radius: var(--radius-xs);
+  font-size: 14px;
+  line-height: 1.5;
   transition: background-color var(--transition);
 }
 
@@ -62,7 +66,7 @@
 }
 
 .bottom {
-  margin-top: auto;
+  padding: 0 16px 24px;
 }
 
 @media (min-width: 1440px) {
@@ -76,8 +80,20 @@
     flex-shrink: 0;
     width: 312px;
     max-width: none;
-    padding: 24px 16px;
+    padding-top: 8px;
     border-right: 1px solid var(--color-border);
     transform: none;
+  }
+
+  .top {
+    padding: 16px;
+  }
+
+  .nav {
+    padding: 8px 16px 0;
+  }
+
+  .navLink {
+    font-size: 16px;
   }
 }
