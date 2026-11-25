@@ -1,11 +1,68 @@
-/* розмітку сторінки (форма + ілюстрація) зробити за макетом */
-.onboarding {
+/* Макет: телефон і планшет — лише форма, десктоп — форма зліва, ілюстрація справа */
+.page {
+  display: flex;
   min-height: 100vh;
-  padding: 24px 16px;
+  background-color: var(--color-bg);
+}
+
+.column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  height: 72px;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 32px 0;
+}
+
+.title {
+  max-width: 480px;
+  font-size: 36px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.imageWrapper {
+  display: none;
 }
 
 @media (min-width: 768px) {
-  .onboarding {
-    padding: 32px;
+  .column {
+    padding: 0 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .column {
+    flex: 0 0 50%;
+    padding: 0 64px;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .imageWrapper {
+    position: relative;
+    display: block;
+    flex: 0 0 50%;
+    min-height: 100vh;
+  }
+
+  .image {
+    object-fit: cover;
   }
 }
