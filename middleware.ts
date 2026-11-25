@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { parseSetCookie } from 'cookie';
-
-// У Next.js 15 цей файл називається middleware.ts (у Next.js 16 — proxy.ts).
-// Middleware працює в Edge-середовищі, тому тут fetch, а не axios.
-const BACKEND_URL = process.env.BACKEND_URL ?? 'https://lehlehka.b.goit.study';
+import { checkSession } from './lib/api/serverApi';
 
 const privateRoutes = ['/journey', '/diary', '/profile'];
 const publicRoutes = ['/auth'];
@@ -20,8 +17,12 @@ export async function middleware(request: NextRequest) {
 
   if (!accessToken) {
     if (refreshToken) {
-      // access-токен прострочився — пробуємо оновити сесію
-      const setCookie = await refreshSession(request);
+      let setCookie: string[] | undefined;
+
+      try {
+        const apiRes = await checkSession();
+        setCookie = apiRes.headers['set-cookie'];
+      } catch {}
 
       if (setCookie) {
         const response = isPublicRoute
@@ -57,20 +58,6 @@ export async function middleware(request: NextRequest) {
   }
 
   return NextResponse.next();
-}
-
-async function refreshSession(request: NextRequest): Promise<string[] | null> {
-  try {
-    const res = await fetch(`${BACKEND_URL}/auth/session`, {
-      headers: { Cookie: request.headers.get('cookie') ?? '' },
-      cache: 'no-store',
-    });
-    if (!res.ok) return null;
-    const setCookie = res.headers.getSetCookie();
-    return setCookie.length ? setCookie : null;
-  } catch {
-    return null;
-  }
 }
 
 export const config = {
