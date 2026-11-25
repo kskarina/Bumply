@@ -87,8 +87,10 @@
     transition: none;
   }
 
+  /* як у макеті: блок 64px, логотип із відступом 8px всередині рядка */
   .top {
-    padding: 16px;
+    height: 64px;
+    padding: 16px 16px 16px 24px;
   }
 
   .nav {
