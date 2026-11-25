@@ -1,5 +1,6 @@
 export type IconName =
   | 'account-circle'
+  | 'add-circle'
   | 'book-2'
   | 'chair'
   | 'chevron-right'
@@ -14,6 +15,7 @@ export type IconName =
   | 'keyboard-arrow-up'
   | 'logout'
   | 'menu'
+  | 'star-shine'
   | 'today';
 
 interface IconProps {
