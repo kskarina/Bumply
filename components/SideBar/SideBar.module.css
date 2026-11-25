@@ -69,8 +69,8 @@
   padding: 0 16px 24px;
 }
 
-/* Планшет і десктоп: меню завжди видно зліва, бургер не потрібен */
-@media (min-width: 768px) {
+/* Десктоп: меню завжди видно зліва (на телефоні й планшеті — бургер-меню за ТЗ) */
+@media (min-width: 1440px) {
   .overlay,
   .closeBtn {
     display: none;
@@ -79,7 +79,7 @@
   .sidebar {
     position: sticky;
     flex-shrink: 0;
-    width: 260px;
+    width: 312px;
     max-width: none;
     padding-top: 8px;
     border-right: 1px solid var(--color-border);
@@ -93,12 +93,6 @@
 
   .nav {
     padding: 8px 16px 0;
-  }
-}
-
-@media (min-width: 1440px) {
-  .sidebar {
-    width: 312px;
   }
 
   .navLink {

@@ -1,23 +1,63 @@
 .authBar {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
   padding-top: 16px;
   border-top: 1px solid var(--color-border);
 }
 
-.link,
-.linkAccent {
-  display: block;
-  padding: 12px 16px;
-  border-radius: 999px;
-  text-align: center;
+/* Кнопки за UI Kit: Button / Primary і Secondary */
+.primary,
+.secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 10px 24px;
+  border: 1px solid;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition);
 }
 
-.link {
-  border: 1px solid var(--color-border);
+.primary {
+  border-color: var(--color-pastel-pink);
+  background-color: var(--color-pastel-pink-light);
 }
 
-.linkAccent {
-  background-color: var(--color-surface-alt);
+.primary:hover,
+.primary:focus-visible {
+  border-color: var(--color-scheme-border);
+  background-color: var(--color-white);
+}
+
+.primary:active {
+  border-color: var(--color-scheme-border);
+  background-color: var(--color-neutral-light);
+}
+
+.secondary {
+  border-color: var(--color-scheme-border);
+  background-color: var(--opacity-neutral-darkest-5);
+}
+
+.secondary:hover,
+.secondary:focus-visible {
+  background-color: var(--color-pastel-pink-lighter);
+}
+
+.secondary:active {
+  background-color: var(--color-pastel-pink);
+}
+
+@media (min-width: 1440px) {
+  .primary,
+  .secondary {
+    height: 46px;
+    font-size: 16px;
+  }
 }
