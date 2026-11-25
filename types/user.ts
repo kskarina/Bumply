@@ -1,4 +1,5 @@
-export type BabyGender = 'boy' | 'girl' | null;
+// значення з документації API
+export type BabyGender = 'boy' | 'girl' | 'unknown';
 
 export interface User {
   _id: string;
@@ -6,7 +7,7 @@ export interface User {
   email: string;
   avatarUrl: string;
   dueDate: string | null;
-  babyGender: BabyGender | string;
+  babyGender: BabyGender | null;
   theme?: string;
 }
 

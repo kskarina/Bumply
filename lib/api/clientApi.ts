@@ -24,8 +24,9 @@ interface CheckSessionResponse {
 
 // ---------- Auth ----------
 
-export async function register(data: RegisterRequest): Promise<void> {
-  await api.post('/auth/register', data);
+export async function register(data: RegisterRequest): Promise<boolean> {
+  const res = await api.post<{ success: boolean }>('/auth/register', data);
+  return res.data.success;
 }
 
 export async function login(data: LoginRequest): Promise<User> {

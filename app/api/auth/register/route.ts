@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
     const saved = await saveCookies(apiRes.headers['set-cookie']);
     if (saved) {
-      return new NextResponse(null, { status: apiRes.status });
+      return NextResponse.json({ success: true });
     }
 
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
