@@ -8,12 +8,10 @@ export function logErrorResponse(errorObj: unknown): void {
   const yellow = '\x1b[33m';
   const reset = '\x1b[0m';
 
-  // Стрілка зелена, текст жовтий
   console.log(`${green}> ${yellow}Error Response Data:${reset}`);
   console.dir(errorObj, { depth: null, colors: true });
 }
 
-// Відповідь з помилкою для всіх route handlers
 export function errorResponse(error: unknown) {
   if (isAxiosError(error)) {
     logErrorResponse(error.response?.data);
@@ -29,7 +27,6 @@ export function errorResponse(error: unknown) {
   return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 }
 
-// Переносимо cookie з токенами з відповіді бекенду на наш домен
 export async function saveCookies(setCookie: string[] | string | undefined) {
   if (!setCookie) return false;
 
@@ -37,7 +34,6 @@ export async function saveCookies(setCookie: string[] | string | undefined) {
   const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
 
   for (const cookieStr of cookieArray) {
-    // domain прибираємо: cookie мають жити на домені фронтенду
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { name, value, domain, ...options } = parseSetCookie(cookieStr);
 
@@ -48,7 +44,6 @@ export async function saveCookies(setCookie: string[] | string | undefined) {
   return true;
 }
 
-// Cookie користувача для запиту на бекенд
 export async function getCookieHeader() {
   const cookieStore = await cookies();
   return { Cookie: cookieStore.toString() };

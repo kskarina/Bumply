@@ -8,7 +8,12 @@ import { getCookieHeader, saveCookies } from '../../_utils/utils';
 export async function GET() {
   try {
     const cookieStore = await cookies();
+    const accessToken = cookieStore.get('accessToken')?.value;
     const refreshToken = cookieStore.get('refreshToken')?.value;
+
+    if (accessToken) {
+      return NextResponse.json({ success: true }, { status: 200 });
+    }
 
     if (!refreshToken) {
       return NextResponse.json({ success: false }, { status: 200 });
@@ -21,7 +26,6 @@ export async function GET() {
     await saveCookies(apiRes.headers['set-cookie']);
     return NextResponse.json({ success: true }, { status: 200 });
   } catch {
-    // сесія недійсна — це не помилка сервера, просто користувач не залогінений
     return NextResponse.json({ success: false }, { status: 200 });
   }
 }
