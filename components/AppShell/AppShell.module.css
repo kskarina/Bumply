@@ -10,18 +10,17 @@
   padding: 16px 20px 32px;
 }
 
+/* з планшета меню стоїть зліва постійно, контент — праворуч */
 @media (min-width: 768px) {
-  .main {
-    padding: 16px 32px 32px;
-  }
-}
-
-@media (min-width: 1440px) {
   .shell {
     display: flex;
   }
 
   .content {
     flex: 1;
+  }
+
+  .main {
+    padding: 16px 32px 32px;
   }
 }

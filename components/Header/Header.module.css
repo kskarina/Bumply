@@ -15,7 +15,8 @@
   color: var(--color-text);
 }
 
-@media (min-width: 1440px) {
+/* хедер з бургером потрібен тільки на телефоні */
+@media (min-width: 768px) {
   .header {
     display: none;
   }
