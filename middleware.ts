@@ -1,49 +1,83 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { API_URL, fixSetCookie } from '@/lib/api/config';
+import { parseSetCookie } from 'cookie';
+
+// У Next.js 15 цей файл називається middleware.ts (у Next.js 16 — proxy.ts).
+// Middleware працює в Edge-середовищі, тому тут fetch, а не axios.
+const BACKEND_URL = process.env.BACKEND_URL ?? 'https://lehlehka.b.goit.study';
 
 const privateRoutes = ['/journey', '/diary', '/profile'];
-const authRoutes = ['/auth'];
+const publicRoutes = ['/auth'];
 
-export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-  const accessToken = req.cookies.get('accessToken')?.value;
-  const refreshToken = req.cookies.get('refreshToken')?.value;
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const accessToken = request.cookies.get('accessToken')?.value;
+  const refreshToken = request.cookies.get('refreshToken')?.value;
 
-  let isLoggedIn = Boolean(accessToken);
-  let newCookies: string[] = [];
+  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
+  const isPrivateRoute = privateRoutes.some(route =>
+    pathname.startsWith(route)
+  );
 
-  // access-токен прострочився, але refresh ще є — пробуємо оновити сесію
-  if (!accessToken && refreshToken) {
-    try {
-      const res = await fetch(`${API_URL}/auth/session`, {
-        headers: { cookie: req.headers.get('cookie') ?? '' },
-        cache: 'no-store',
-      });
-      if (res.ok) {
-        isLoggedIn = true;
-        newCookies = res.headers.getSetCookie().map(fixSetCookie);
+  if (!accessToken) {
+    if (refreshToken) {
+      // access-токен прострочився — пробуємо оновити сесію
+      const setCookie = await refreshSession(request);
+
+      if (setCookie) {
+        const response = isPublicRoute
+          ? NextResponse.redirect(new URL('/', request.url))
+          : NextResponse.next();
+
+        for (const cookieStr of setCookie) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { name, value, domain, ...options } = parseSetCookie(cookieStr);
+          if (value) {
+            response.cookies.set(name, value, options);
+          }
+        }
+        return response;
       }
-    } catch {
-      // якщо бекенд недоступний — вважаємо, що користувач не залогінений
+    }
+
+    if (isPublicRoute) {
+      return NextResponse.next();
+    }
+
+    if (isPrivateRoute) {
+      return NextResponse.redirect(new URL('/auth/login', request.url));
     }
   }
 
-  const isPrivate = privateRoutes.some((route) => pathname.startsWith(route));
-  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
-
-  let response: NextResponse;
-  if (isPrivate && !isLoggedIn) {
-    response = NextResponse.redirect(new URL('/auth/login', req.url));
-  } else if (isAuthRoute && isLoggedIn) {
-    response = NextResponse.redirect(new URL('/', req.url));
-  } else {
-    response = NextResponse.next();
+  if (isPublicRoute) {
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
-  newCookies.forEach((cookie) => response.headers.append('set-cookie', cookie));
-  return response;
+  if (isPrivateRoute) {
+    return NextResponse.next();
+  }
+
+  return NextResponse.next();
+}
+
+async function refreshSession(request: NextRequest): Promise<string[] | null> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/auth/session`, {
+      headers: { Cookie: request.headers.get('cookie') ?? '' },
+      cache: 'no-store',
+    });
+    if (!res.ok) return null;
+    const setCookie = res.headers.getSetCookie();
+    return setCookie.length ? setCookie : null;
+  } catch {
+    return null;
+  }
 }
 
 export const config = {
-  matcher: ['/journey/:path*', '/diary/:path*', '/profile/:path*', '/auth/:path*'],
+  matcher: [
+    '/journey/:path*',
+    '/diary/:path*',
+    '/profile/:path*',
+    '/auth/:path*',
+  ],
 };

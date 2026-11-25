@@ -38,9 +38,18 @@ export default function Modal({ onClose, children }: ModalProps) {
   if (!root) return null;
 
   return createPortal(
-    <div className={css.backdrop} onClick={handleBackdropClick} role="presentation">
+    <div
+      className={css.backdrop}
+      onClick={handleBackdropClick}
+      role="presentation"
+    >
       <div className={css.modal} role="dialog" aria-modal="true">
-        <button type="button" className={css.closeBtn} onClick={onClose} aria-label="Закрити">
+        <button
+          type="button"
+          className={css.closeBtn}
+          onClick={onClose}
+          aria-label="Закрити"
+        >
           <Icon name="close" />
         </button>
         {children}

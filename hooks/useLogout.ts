@@ -10,15 +10,15 @@ import { useAuthStore } from '@/lib/store/authStore';
 export const useLogout = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const clearUser = useAuthStore((s) => s.clearUser);
+  const clearIsAuthenticated = useAuthStore(s => s.clearIsAuthenticated);
 
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      clearUser();
+      clearIsAuthenticated();
       queryClient.clear();
       router.push('/');
     },
-    onError: (error) => toast.error(getErrorMessage(error)),
+    onError: error => toast.error(getErrorMessage(error)),
   });
 };

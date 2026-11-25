@@ -17,7 +17,12 @@ export default function Logo({ onClick, className, size = 'sm' }: LogoProps) {
   const { width, height } = sizes[size];
 
   return (
-    <Link href="/" onClick={onClick} className={className} aria-label="Лелека — на головну">
+    <Link
+      href="/"
+      onClick={onClick}
+      className={className}
+      aria-label="Лелека — на головну"
+    >
       <Image
         src="/logo.svg"
         alt="Лелека"

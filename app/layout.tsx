@@ -4,7 +4,8 @@ import localFont from 'next/font/local';
 import { Toaster } from 'react-hot-toast';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
-import 'modern-normalize';
+import AppShell from '@/components/AppShell/AppShell';
+import 'modern-normalize/modern-normalize.css';
 import './globals.css';
 
 // Lato 2.0 підключений локально: у Google Fonts немає кирилиці і жирностей 500/600
@@ -31,12 +32,18 @@ export const metadata: Metadata = {
   description: 'Лелека — щоденний помічник для майбутніх мам',
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="uk" className={`${lato.variable} ${comfortaa.variable}`}>
       <body>
         <TanStackProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <AppShell>{children}</AppShell>
+          </AuthProvider>
         </TanStackProvider>
         <Toaster position="top-right" />
         <div id="modal-root" />

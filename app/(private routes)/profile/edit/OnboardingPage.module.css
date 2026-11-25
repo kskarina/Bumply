@@ -1,0 +1,11 @@
+/* розмітку сторінки (форма + ілюстрація) зробити за макетом */
+.onboarding {
+  min-height: 100vh;
+  padding: 24px 16px;
+}
+
+@media (min-width: 768px) {
+  .onboarding {
+    padding: 32px;
+  }
+}

@@ -7,7 +7,12 @@ export default function Header({ onOpenMenu }: { onOpenMenu: () => void }) {
   return (
     <header className={css.header}>
       <Logo />
-      <button type="button" className={css.burger} onClick={onOpenMenu} aria-label="Відкрити меню">
+      <button
+        type="button"
+        className={css.burger}
+        onClick={onOpenMenu}
+        aria-label="Відкрити меню"
+      >
         <Icon name="menu" size={32} />
       </button>
     </header>

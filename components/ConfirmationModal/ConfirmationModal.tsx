@@ -27,7 +27,12 @@ export default function ConfirmationModal({
         <button type="button" className={css.cancelBtn} onClick={onCancel}>
           {cancelButtonText}
         </button>
-        <button type="button" className={css.confirmBtn} onClick={onConfirm} disabled={isLoading}>
+        <button
+          type="button"
+          className={css.confirmBtn}
+          onClick={onConfirm}
+          disabled={isLoading}
+        >
           {confirmButtonText}
         </button>
       </div>

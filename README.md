@@ -51,33 +51,43 @@ npm run lint    # перевірка ESLint
 ### Змінні оточення
 
 Не обов'язкові. За замовчуванням використовується бекенд `https://lehlehka.b.goit.study`.
-Щоб змінити адресу, скопіюйте `.env.example` у `.env.local` і змініть `API_URL`.
+Щоб змінити адреси, скопіюйте `.env.example` у `.env.local` і змініть `NEXT_PUBLIC_API_URL` або `BACKEND_URL`.
 
 ## Структура проєкту
 
 ```
 app/
-  (main)/                  сторінки з сайдбаром і хлібними крихтами
-    page.tsx               /            — Мій день
-    journey/[weekNumber]/  /journey/16  — Подорож
-    diary/                 /diary       — Щоденник
-    diary/[entryId]/       /diary/:id   — запис (мобілка/планшет)
-    profile/               /profile     — Профіль
-  (auth)/                  сторінки без сайдбару
-    auth/[authType]/       /auth/login, /auth/register
-    profile/edit/          /profile/edit — онбординг
-  api/[...path]/route.ts   проксі до бекенду (cookie з токенами живуть на нашому домені)
-components/                кожен компонент у своїй папці: Name.tsx + Name.module.css
-hooks/                     власні хуки
+  page.tsx                       /             — Мій день (DashboardPage)
+  layout.tsx                     провайдери + загальний макет (меню, хлібні крихти)
+  loading.tsx, not-found.tsx
+  (private routes)/              сторінки тільки для залогінених
+    journey/[weekNumber]/        /journey/16   — Подорож
+    diary/                       /diary        — Щоденник
+    diary/[entryId]/             /diary/:id    — запис (мобілка/планшет)
+    profile/                     /profile      — Профіль
+    profile/edit/                /profile/edit — онбординг
+  (auth routes)/                 сторінки без меню
+    auth/[authType]/             /auth/login, /auth/register
+  api/                           route handlers: запити до бекенду через наш сервер
+    api.ts                       axios для бекенду
+    _utils/utils.ts              обробка помилок і cookie
+    auth/ users/ tasks/ diary/ emotions/ weeks/
+components/                      кожен компонент у своїй папці: Name.tsx + Name.module.css
+hooks/                           власні хуки
+lib/
+  api/api.ts                     axios для запитів з браузера (на /api)
+  api/clientApi.ts               усі запити з клієнтських компонентів
+  api/serverApi.ts               запити з серверних компонентів (з cookie)
+  store/authStore.ts             Zustand-стор користувача
+middleware.ts                    захист приватних сторінок і оновлення сесії
 public/
-  logo.svg                 логотип
-  sprite.svg               іконки з макету (спрайт)
-  images/                  ілюстрації для auth, онбордингу і заглушка аватара
-lib/api/clientApi.ts       усі запити до API
-lib/store/authStore.ts     Zustand-стор користувача
-middleware.ts              захист приватних сторінок і оновлення сесії
-types/                     TypeScript-типи даних з бекенду
+  logo.svg, sprite.svg           логотип та іконки з макету
+  images/                        ілюстрації для auth, онбордингу і заглушка аватара
+types/                           типи: user, task, diary, emotion, week, common
 ```
+
+Стилі сторінки лежать поруч із нею й називаються за сторінкою: `DashboardPage.module.css`, `DiaryPage.module.css` тощо.
+Код форматуємо Prettier за `.prettierrc.json`.
 
 ### Кольори, шрифти і типографіка
 
@@ -127,9 +137,9 @@ import Icon from '@/components/Icon/Icon';
 
 ### Як працює авторизація
 
-Бекенд зберігає `accessToken` і `refreshToken` у cookie. Браузер ходить на `/api/...` нашого ж сайту, а `app/api/[...path]/route.ts` пересилає запит на бекенд разом із cookie.
+Бекенд зберігає `accessToken` і `refreshToken` у cookie. Браузер ходить на `/api/...` нашого ж сайту (route handlers у `app/api`), а вони звертаються до бекенду з cookie користувача і зберігають нові cookie на нашому домені.
 `middleware.ts` не пускає незалогінених на `/journey`, `/diary` і `/profile`, а залогінених — на `/auth/*`. Якщо access-токен прострочився, middleware сам оновлює сесію.
-`AuthProvider` при завантаженні сторінки отримує поточного користувача і кладе його в `useAuthStore`.
+`AuthProvider` при завантаженні сторінки перевіряє сесію (`checkSession`), отримує поточного користувача (`getMe`) і кладе його в `useAuthStore`.
 
 ## Робота в команді
 

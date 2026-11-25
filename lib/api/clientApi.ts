@@ -1,131 +1,147 @@
-import axios from 'axios';
+import { api } from './api';
+import type { ListParams } from '@/types/common';
+import type { UpdateUserData, User } from '@/types/user';
+import type { Task, TaskData, TasksResponse } from '@/types/task';
+import type { EmotionsResponse } from '@/types/emotion';
 import type {
   DiaryNote,
-  DiaryNotePayload,
+  DiaryNoteData,
   DiaryNotesResponse,
-  EmotionsResponse,
-  ListParams,
-  Task,
-  TasksResponse,
-  User,
-  WeekBaby,
-  WeekGreeting,
-  WeekMom,
-} from '@/types';
+} from '@/types/diary';
+import type { WeekBaby, WeekGreeting, WeekMom } from '@/types/week';
 
-export const api = axios.create({
-  baseURL: '/api',
-  withCredentials: true,
-});
-
-// ---------- Auth ----------
-
-export interface RegisterData {
+export interface RegisterRequest {
   name: string;
   email: string;
   password: string;
 }
 
-export type LoginData = Omit<RegisterData, 'name'>;
+export type LoginRequest = Omit<RegisterRequest, 'name'>;
 
-export const register = async (data: RegisterData) => {
+interface CheckSessionResponse {
+  success: boolean;
+}
+
+// ---------- Auth ----------
+
+export async function register(data: RegisterRequest): Promise<void> {
   await api.post('/auth/register', data);
-};
+}
 
-export const login = async (data: LoginData) => {
+export async function login(data: LoginRequest): Promise<User> {
   const res = await api.post<{ user: User }>('/auth/login', data);
   return res.data.user;
-};
+}
 
-export const logout = async () => {
+export async function logout(): Promise<void> {
   await api.post('/auth/logout');
-};
+}
 
-export const refreshSession = async () => {
-  await api.get('/auth/session');
-};
+export async function checkSession(): Promise<boolean> {
+  const res = await api.get<CheckSessionResponse>('/auth/session');
+  return res.data.success;
+}
 
 // ---------- Users ----------
 
-export const getMe = async () => {
-  const res = await api.get<User>('/users/current');
-  return res.data;
-};
+export async function getMe(): Promise<User> {
+  const { data } = await api.get<User>('/users/current');
+  return data;
+}
 
-export type UpdateUserData = Partial<Pick<User, 'name' | 'email' | 'dueDate' | 'babyGender'>>;
+export async function updateMe(userData: UpdateUserData): Promise<User> {
+  const { data } = await api.patch<User>('/users/current', userData);
+  return data;
+}
 
-export const updateMe = async (data: UpdateUserData) => {
-  const res = await api.patch<User>('/users/current', data);
-  return res.data;
-};
-
-export const updateAvatar = async (file: File) => {
+export async function updateAvatar(file: File): Promise<User> {
   const formData = new FormData();
   formData.append('avatar', file);
-  const res = await api.patch<User>('/users/current/avatars', formData);
-  return res.data;
-};
+  const { data } = await api.patch<User>('/users/current/avatars', formData);
+  return data;
+}
 
 // ---------- Tasks ----------
 
-export const fetchTasks = async (params: ListParams = {}) => {
-  const res = await api.get<TasksResponse>('/tasks', { params });
-  return res.data;
-};
+export async function fetchTasks(
+  params: ListParams = {}
+): Promise<TasksResponse> {
+  const { data } = await api.get<TasksResponse>('/tasks', { params });
+  return data;
+}
 
-export const createTask = async (data: { name: string; date: string }) => {
-  const res = await api.post<Task>('/tasks', data);
-  return res.data;
-};
+export async function createTask(taskData: TaskData): Promise<Task> {
+  const { data } = await api.post<Task>('/tasks', taskData);
+  return data;
+}
 
-export const updateTaskStatus = async (taskId: string, isDone: boolean) => {
-  const res = await api.patch<{ isDone: boolean }>(`/tasks/status/${taskId}`, { isDone });
-  return res.data;
-};
+export async function updateTaskStatus(
+  taskId: string,
+  isDone: boolean
+): Promise<{ isDone: boolean }> {
+  const { data } = await api.patch<{ isDone: boolean }>(
+    `/tasks/status/${taskId}`,
+    { isDone }
+  );
+  return data;
+}
 
 // ---------- Emotions ----------
 
-export const fetchEmotions = async (params: Omit<ListParams, 'sortOrder'> = {}) => {
-  const res = await api.get<EmotionsResponse>('/emotions', { params });
-  return res.data;
-};
+export async function fetchEmotions(
+  params: Omit<ListParams, 'sortOrder'> = {}
+): Promise<EmotionsResponse> {
+  const { data } = await api.get<EmotionsResponse>('/emotions', { params });
+  return data;
+}
 
 // ---------- Diary ----------
 
-export const fetchDiaryNotes = async (params: ListParams = {}) => {
-  const res = await api.get<DiaryNotesResponse>('/diary', { params });
-  return res.data;
-};
+export async function fetchDiaryNotes(
+  params: ListParams = {}
+): Promise<DiaryNotesResponse> {
+  const { data } = await api.get<DiaryNotesResponse>('/diary', { params });
+  return data;
+}
 
-export const createDiaryNote = async (data: DiaryNotePayload) => {
-  const res = await api.post<DiaryNote>('/diary', data);
-  return res.data;
-};
+export async function createDiaryNote(
+  noteData: DiaryNoteData
+): Promise<DiaryNote> {
+  const { data } = await api.post<DiaryNote>('/diary', noteData);
+  return data;
+}
 
-export const updateDiaryNote = async (noteId: string, data: Partial<DiaryNotePayload>) => {
-  const res = await api.patch<DiaryNote>(`/diary/${noteId}`, data);
-  return res.data;
-};
+export async function updateDiaryNote(
+  noteId: string,
+  noteData: Partial<DiaryNoteData>
+): Promise<DiaryNote> {
+  const { data } = await api.patch<DiaryNote>(`/diary/${noteId}`, noteData);
+  return data;
+}
 
-export const deleteDiaryNote = async (noteId: string) => {
-  const res = await api.delete<{ _id: string }>(`/diary/${noteId}`);
-  return res.data;
-};
+export async function deleteDiaryNote(
+  noteId: string
+): Promise<{ _id: string }> {
+  const { data } = await api.delete<{ _id: string }>(`/diary/${noteId}`);
+  return data;
+}
 
 // ---------- Weeks ----------
 
-export const fetchWeekGreeting = async (isAuthenticated: boolean) => {
+export async function fetchWeekGreeting(
+  isAuthenticated: boolean
+): Promise<WeekGreeting> {
   const url = isAuthenticated ? '/weeks/greeting' : '/weeks/greeting/public';
-  const res = await api.get<WeekGreeting>(url);
-  return res.data;
-};
+  const { data } = await api.get<WeekGreeting>(url);
+  return data;
+}
 
-export const fetchWeekBaby = async (weekNumber: number) => {
-  const res = await api.get<WeekBaby>(`/weeks/${weekNumber}/baby`);
-  return res.data;
-};
+export async function fetchWeekBaby(weekNumber: number): Promise<WeekBaby> {
+  const { data } = await api.get<WeekBaby>(`/weeks/${weekNumber}/baby`);
+  return data;
+}
 
-export const fetchWeekMom = async (weekNumber: number) => {
-  const res = await api.get<WeekMom>(`/weeks/${weekNumber}/mom`);
-  return res.data;
-};
+export async function fetchWeekMom(weekNumber: number): Promise<WeekMom> {
+  const { data } = await api.get<WeekMom>(`/weeks/${weekNumber}/mom`);
+  return data;
+}

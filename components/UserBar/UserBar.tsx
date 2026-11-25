@@ -11,7 +11,7 @@ import Icon from '@/components/Icon/Icon';
 import css from './UserBar.module.css';
 
 export default function UserBar() {
-  const user = useAuthStore((s) => s.user);
+  const user = useAuthStore(s => s.user);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const { mutate: logout, isPending } = useLogout();
 
@@ -46,7 +46,9 @@ export default function UserBar() {
           title="Ви впевнені, що хочете вийти?"
           confirmButtonText="Так"
           cancelButtonText="Ні"
-          onConfirm={() => logout(undefined, { onSettled: () => setIsConfirmOpen(false) })}
+          onConfirm={() =>
+            logout(undefined, { onSettled: () => setIsConfirmOpen(false) })
+          }
           onCancel={() => setIsConfirmOpen(false)}
           isLoading={isPending}
         />

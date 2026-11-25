@@ -1,34 +1,40 @@
 'use client';
 
 import { useEffect } from 'react';
-import { getMe, refreshSession } from '@/lib/api/clientApi';
+import { checkSession, getMe } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
+
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
 
 // При першому завантаженні дізнаємося, чи користувач залогінений,
 // і кладемо його дані в стор
-export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const setUser = useAuthStore((s) => s.setUser);
-  const clearUser = useAuthStore((s) => s.clearUser);
-  const setAuthChecked = useAuthStore((s) => s.setAuthChecked);
+export default function AuthProvider({ children }: AuthProviderProps) {
+  const setUser = useAuthStore(state => state.setUser);
+  const clearIsAuthenticated = useAuthStore(
+    state => state.clearIsAuthenticated
+  );
+  const setAuthChecked = useAuthStore(state => state.setAuthChecked);
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const fetchUser = async () => {
       try {
-        setUser(await getMe());
-      } catch {
-        try {
-          await refreshSession();
-          setUser(await getMe());
-        } catch {
-          clearUser();
+        const isAuthenticated = await checkSession();
+        if (isAuthenticated) {
+          const user = await getMe();
+          if (user) setUser(user);
+        } else {
+          clearIsAuthenticated();
         }
+      } catch {
+        clearIsAuthenticated();
       } finally {
         setAuthChecked();
       }
     };
-
-    checkAuth();
-  }, [setUser, clearUser, setAuthChecked]);
+    fetchUser();
+  }, [setUser, clearIsAuthenticated, setAuthChecked]);
 
   return children;
 }

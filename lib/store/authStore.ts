@@ -1,21 +1,27 @@
 import { create } from 'zustand';
-import type { User } from '@/types';
+import type { User } from '@/types/user';
 
-interface AuthState {
-  user: User | null;
+type AuthStore = {
   isAuthenticated: boolean;
+  user: User | null;
   // true, коли перевірку сесії при старті вже зроблено
   isAuthChecked: boolean;
   setUser: (user: User) => void;
-  clearUser: () => void;
+  clearIsAuthenticated: () => void;
   setAuthChecked: () => void;
-}
+};
 
-export const useAuthStore = create<AuthState>()((set) => ({
-  user: null,
+export const useAuthStore = create<AuthStore>()(set => ({
   isAuthenticated: false,
+  user: null,
   isAuthChecked: false,
-  setUser: (user) => set({ user, isAuthenticated: true }),
-  clearUser: () => set({ user: null, isAuthenticated: false }),
-  setAuthChecked: () => set({ isAuthChecked: true }),
+  setUser: (user: User) => {
+    set(() => ({ user, isAuthenticated: true }));
+  },
+  clearIsAuthenticated: () => {
+    set(() => ({ user: null, isAuthenticated: false }));
+  },
+  setAuthChecked: () => {
+    set(() => ({ isAuthChecked: true }));
+  },
 }));
