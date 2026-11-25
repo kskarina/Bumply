@@ -1,17 +1,89 @@
-/* Значення взяті з UI Kit у Figma (Color Scheme "Pink", Typography, UI Styles) */
+/* Значення взяті з UI Kit у Figma (Primitives, Color Scheme "Pink", Typography, UI Styles) */
 :root {
-  /* кольори */
-  --color-bg: #ffffff; /* фон сторінки, сайдбару, модалок */
-  --color-surface: #fff4f6; /* картки, блоки, активний пункт меню */
-  --color-surface-alt: #ffdae0; /* кнопки */
-  --color-accent: #ffcbd3; /* наведення на кнопки, акценти */
-  --color-accent-dark: #cca2a8;
-  --color-text: #000000;
-  --color-text-secondary: rgba(0, 0, 0, 0.6);
-  --color-text-muted: #7f7f7f; /* поточна сторінка в хлібних крихтах */
-  --color-border: rgba(0, 0, 0, 0.15);
-  --color-input-bg: rgba(0, 0, 0, 0.05);
-  --color-error: #c60000;
+  /* ===== Палітра з Figma (Primitives / Color) ===== */
+  --color-white: #fff;
+
+  --color-neutral-lightest: #f2f2f2;
+  --color-neutral-lighter: #d8d8d8;
+  --color-neutral-light: #b2b2b2;
+  --color-neutral: #7f7f7f;
+  --color-neutral-dark: #4c4c4c;
+  --color-neutral-darker: #191919;
+  --color-neutral-darkest: #000;
+
+  --color-pastel-pink-lightest: #fff9fa;
+  --color-pastel-pink-lighter: #fff4f6;
+  --color-pastel-pink-light: #ffdae0;
+  --color-pastel-pink: #ffcbd3;
+  --color-pastel-pink-dark: #cca2a8;
+  --color-pastel-pink-darker: #665154;
+  --color-pastel-pink-darkest: #4c3c3f;
+
+  --color-oasis-lightest: #fefdf9;
+  --color-oasis-lighter: #fefbf4;
+  --color-oasis-light: #fef1db;
+  --color-oasis: #feeccc;
+  --color-oasis-dark: #cbbca3;
+  --color-oasis-darker: #655e51;
+  --color-oasis-darkest: #4c463d;
+
+  --color-french-pass-lightest: #fbfefe;
+  --color-french-pass-lighter: #e5fafe;
+  --color-french-pass-light: #c4f2fe;
+  --color-french-pass: #adeffe;
+  --color-french-pass-dark: #98c1cb;
+  --color-french-pass-darker: #4c6065;
+  --color-french-pass-darkest: #39484c;
+
+  --color-red: #c60000;
+
+  /* ===== Прозорості (Primitives / Opacity) ===== */
+  --opacity-transparent: rgba(255, 255, 255, 0);
+
+  --opacity-white-5: rgba(255, 255, 255, 0.05);
+  --opacity-white-10: rgba(255, 255, 255, 0.1);
+  --opacity-white-15: rgba(255, 255, 255, 0.15);
+  --opacity-white-20: rgba(255, 255, 255, 0.2);
+  --opacity-white-30: rgba(255, 255, 255, 0.3);
+  --opacity-white-40: rgba(255, 255, 255, 0.4);
+  --opacity-white-50: rgba(255, 255, 255, 0.5);
+  --opacity-white-60: rgba(255, 255, 255, 0.6);
+
+  --opacity-neutral-darkest-5: rgba(0, 0, 0, 0.05);
+  --opacity-neutral-darkest-10: rgba(0, 0, 0, 0.1);
+  --opacity-neutral-darkest-15: rgba(0, 0, 0, 0.15);
+  --opacity-neutral-darkest-20: rgba(0, 0, 0, 0.2);
+  --opacity-neutral-darkest-30: rgba(0, 0, 0, 0.3);
+  --opacity-neutral-darkest-40: rgba(0, 0, 0, 0.4);
+  --opacity-neutral-darkest-50: rgba(0, 0, 0, 0.5);
+  --opacity-neutral-darkest-60: rgba(0, 0, 0, 0.6);
+
+  /* ===== Кольорова схема (Color Schemes / Pink — основна) ===== */
+  --color-scheme-background: var(--color-white);
+  --color-scheme-foreground: var(--color-pastel-pink-lighter);
+  --color-scheme-foreground-alt: var(--color-pastel-pink-light);
+  --color-scheme-accent: var(--color-pastel-pink);
+  --color-scheme-border: var(--opacity-neutral-darkest-15);
+  --color-scheme-text: var(--color-neutral-darkest);
+
+  /* ===== Короткі назви, які вже використовуються в компонентах ===== */
+  --color-bg: var(
+    --color-scheme-background
+  ); /* фон сторінки, сайдбару, модалок */
+  --color-surface: var(
+    --color-scheme-foreground
+  ); /* картки, блоки, активний пункт меню */
+  --color-surface-alt: var(--color-scheme-foreground-alt); /* кнопки */
+  --color-accent: var(--color-scheme-accent); /* наведення на кнопки, акценти */
+  --color-accent-dark: var(--color-pastel-pink-dark);
+  --color-text: var(--color-scheme-text);
+  --color-text-secondary: var(--opacity-neutral-darkest-60);
+  --color-text-muted: var(
+    --color-neutral
+  ); /* поточна сторінка в хлібних крихтах */
+  --color-border: var(--color-scheme-border);
+  --color-input-bg: var(--opacity-neutral-darkest-5);
+  --color-error: var(--color-red);
 
   /* заокруглення */
   --radius-xs: 8px;
