@@ -1,5 +1,49 @@
 .addTaskModal {
-  padding: 16px;
-  border-radius: var(--radius);
-  background-color: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.title {
+  font-size: 36px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Розміри вікна з макету. Базова Modal обмежена 500px,
+   тому перевизначаємо її тільки для цієї модалки */
+[role='dialog']:has(.addTaskModal) {
+  max-width: 335px;
+  padding: 64px 20px;
+  border-radius: var(--radius-lg);
+  /* календар DatePickerField випадає за межі вікна — не обрізаємо його */
+  overflow: visible;
+}
+
+[role='dialog']:has(.addTaskModal) > button {
+  top: 20px;
+  right: 20px;
+}
+
+@media (min-width: 768px) {
+  [role='dialog']:has(.addTaskModal) {
+    max-width: 704px;
+    padding: 64px 32px;
+  }
+
+  [role='dialog']:has(.addTaskModal) > button {
+    top: 24px;
+    right: 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .title {
+    font-size: 48px;
+  }
+
+  [role='dialog']:has(.addTaskModal) {
+    max-width: 768px;
+    padding: 64px;
+  }
 }
