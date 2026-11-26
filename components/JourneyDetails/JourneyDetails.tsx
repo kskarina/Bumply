@@ -1,11 +1,14 @@
 'use client';
 
+import Loading from '@/app/loading';
 import { fetchWeekBaby, fetchWeekMom } from '@/lib/api/clientApi';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BabyDetails from '../BabyDetails/BabyDetails';
-import css from './JourneyDetails.module.css';
 import MomDetails from '../MomDetails/MomDetails';
+import css from './JourneyDetails.module.css';
+import toast from 'react-hot-toast';
+import { getErrorMessage } from '@/lib/api/getErrorMessage';
 
 interface JourneyDetailsProps {
   weekNumber: number;
@@ -39,6 +42,14 @@ export default function JourneyDetails({ weekNumber }: JourneyDetailsProps) {
     enabled: isMom,
   });
 
+  useEffect(() => {
+    if (babyError) toast.error(getErrorMessage(babyError));
+  }, [babyError]);
+
+  useEffect(() => {
+    if (momError) toast.error(getErrorMessage(momError));
+  }, [momError]);
+
   console.log(mom);
 
   return (
@@ -62,6 +73,7 @@ export default function JourneyDetails({ weekNumber }: JourneyDetailsProps) {
         </li>
       </ul>
 
+      {(babyLoading || momLoading) && <Loading />}
       {isBaby && baby && <BabyDetails baby={baby} />}
       {isMom && mom && <MomDetails mom={mom} />}
     </>

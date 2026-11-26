@@ -1,5 +1,5 @@
 .weekList {
-  margin: 0 -20px 32px;
+  margin: 24px -20px 32px;
 }
 
 .weekList :global(.swiper-slide) {
@@ -30,9 +30,9 @@
   pointer-events: none;
 }
 
-.swiper-slide:has(.weekLink[aria-disabled='true']) {
-  pointer-events: none !important;
-  cursor: not-allowed !important;
+.weekList :global(.swiper-slide):has(.weekLink[aria-disabled='true']) {
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .active {
@@ -50,4 +50,10 @@
   font-size: 24px;
   line-height: 1.4;
   letter-spacing: 0.01em;
+}
+
+@media screen and (min-width: 768px) {
+  .weekList {
+    margin: 24px -32px 32px;
+  }
 }
