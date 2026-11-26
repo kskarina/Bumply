@@ -1,5 +1,230 @@
-.profileEditForm {
-  padding: 16px;
-  border-radius: var(--radius);
-  background-color: var(--color-surface);
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-scheme-text);
+}
+
+.input {
+  width: 100%;
+  min-height: 37px;
+  padding: 8px 12px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  outline: none;
+  background-color: var(--opacity-neutral-darkest-5);
+  color: var(--opacity-neutral-darkest-60);
+  font-family: var(--font-main);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: border-color var(--transition);
+}
+
+.input:hover {
+  border-color: var(--color-scheme-border);
+}
+
+.input:focus {
+  border-color: var(--color-neutral);
+}
+
+.readonlyInput {
+  cursor: not-allowed;
+}
+
+.inputError {
+  border-color: var(--color-red);
+}
+
+.inputError:focus {
+  border-color: var(--color-red);
+}
+
+.error {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-red);
+}
+
+.select {
+  width: 100%;
+  font-family: var(--font-main);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.select :global(.profileSelect__control) {
+  min-height: 37px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background-color: var(--opacity-neutral-darkest-5);
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.select :global(.profileSelect__control):hover {
+  border-color: var(--color-scheme-border);
+}
+
+.select :global(.profileSelect__control--is-focused) {
+  border-color: var(--color-neutral);
+}
+
+.select :global(.profileSelect__control--is-disabled) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.selectError :global(.profileSelect__control),
+.selectError :global(.profileSelect__control--is-focused) {
+  border-color: var(--color-red);
+}
+
+.select :global(.profileSelect__value-container) {
+  padding: 6px 12px;
+}
+
+.select :global(.profileSelect__single-value),
+.select :global(.profileSelect__placeholder) {
+  margin: 0;
+  color: var(--opacity-neutral-darkest-60);
+}
+
+.select :global(.profileSelect__dropdown-indicator) {
+  padding: 0 12px;
+}
+
+.arrowIcon {
+  display: block;
+  color: var(--opacity-neutral-darkest-60);
+}
+
+.select :global(.profileSelect__menu) {
+  z-index: 10;
+  overflow: hidden;
+  margin-top: 4px;
+  border: 1px solid var(--color-scheme-border);
+  border-radius: 12px;
+  background-color: var(--color-scheme-background);
+  box-shadow: 0 4px 12px var(--opacity-neutral-darkest-10);
+}
+
+.select :global(.profileSelect__menu-list) {
+  padding: 0;
+}
+
+.select :global(.profileSelect__option) {
+  padding: 8px 12px;
+  color: var(--color-scheme-text);
+  background-color: var(--color-scheme-background);
+  cursor: pointer;
+}
+
+.select :global(.profileSelect__option--is-focused),
+.select :global(.profileSelect__option--is-selected) {
+  background-color: var(--opacity-neutral-darkest-5);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.cancelButton,
+.saveButton {
+  flex: 1;
+  min-width: 0;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-main);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-scheme-text);
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.cancelButton {
+  background-color: var(--opacity-neutral-darkest-5);
+  border-bottom: 4px solid var(--opacity-neutral-darkest-15);
+}
+
+.saveButton {
+  background-color: var(--color-scheme-foreground-alt);
+  border-bottom: 4px solid var(--color-scheme-accent);
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: var(--opacity-neutral-darkest-10);
+}
+
+.saveButton:hover:not(:disabled) {
+  background-color: var(--color-scheme-foreground);
+}
+
+.cancelButton:active:not(:disabled) {
+  background-color: var(--color-neutral-light);
+}
+
+.saveButton:active:not(:disabled) {
+  background-color: var(--color-scheme-accent);
+}
+
+.cancelButton:focus-visible,
+.saveButton:focus-visible {
+  outline: 2px solid var(--color-neutral);
+  outline-offset: 2px;
+}
+
+.cancelButton:disabled,
+.saveButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media screen and (min-width: 768px) {
+  .cancelButton,
+  .saveButton {
+    flex: initial;
+    padding: 8px 20px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .label,
+  .input,
+  .select {
+    font-size: 16px;
+  }
+
+  .input,
+  .select :global(.profileSelect__control) {
+    min-height: 40px;
+  }
+
+  .cancelButton,
+  .saveButton {
+    min-height: 42px;
+    font-size: 16px;
+  }
 }

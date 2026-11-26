@@ -1,4 +1,52 @@
-/* розмітку сторінки (форма + ілюстрація) зробити за макетом */
 .authPage {
+  display: flex;
   min-height: 100vh;
+}
+
+.column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 0 20px 32px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 72px;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageWrapper {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .column {
+    padding: 0 32px 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .column {
+    flex-basis: 50%;
+    padding: 0 64px;
+  }
+
+  .imageWrapper {
+    position: relative;
+    display: block;
+    flex: 1;
+    flex-basis: 50%;
+  }
+
+  .image {
+    object-fit: cover;
+  }
 }

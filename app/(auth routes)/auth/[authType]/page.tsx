@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import Logo from '@/components/Logo/Logo';
 import LoginForm from '@/components/LoginForm/LoginForm';
 import RegistrationForm from '@/components/RegistrationForm/RegistrationForm';
 
@@ -15,9 +17,30 @@ const AuthPage = async ({ params }: Props) => {
     notFound();
   }
 
+  const isLogin = authType === 'login';
+
   return (
     <div className={css.authPage}>
-      {authType === 'login' ? <LoginForm /> : <RegistrationForm />}
+      <div className={css.column}>
+        <header className={css.header}>
+          <Logo size="lg" />
+        </header>
+        <div className={css.content}>
+          {isLogin ? <LoginForm /> : <RegistrationForm />}
+        </div>
+      </div>
+
+      <div className={css.imageWrapper}>
+        <Image
+          src={
+            isLogin ? '/images/auth-login.webp' : '/images/auth-register.webp'
+          }
+          alt=""
+          fill
+          sizes="50vw"
+          className={css.image}
+        />
+      </div>
     </div>
   );
 };

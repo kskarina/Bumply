@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
@@ -32,6 +33,21 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
+
+  // бургер-меню закривається по Escape (якщо поверх не відкрита модалка)
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const isModalOpen = Boolean(
+        document.getElementById('modal-root')?.childElementCount
+      );
+      if (e.key === 'Escape' && !isModalOpen) onClose();
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   return (
     <>

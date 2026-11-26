@@ -3,3 +3,13 @@
   flex-direction: column;
   gap: 16px;
 }
+
+.diaryDetails {
+  display: none;
+}
+
+@media screen and (min-width: 1440px) {
+  .diaryDetails {
+    display: block;
+  }
+}

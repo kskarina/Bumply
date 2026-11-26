@@ -1,0 +1,198 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-scheme-text);
+}
+
+.wrapper {
+  display: block;
+  width: 100%;
+}
+
+.wrapper :global(.react-datepicker__input-container) {
+  width: 100%;
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 48px;
+  padding: 8px 12px;
+
+  border: 2px solid transparent;
+  border-radius: 12px;
+  outline: none;
+
+  background-color: var(--opacity-neutral-darkest-5);
+  color: var(--opacity-neutral-darkest-60);
+
+  font-family: var(--font-main);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.input:hover:not(:disabled) {
+  border-color: var(--color-scheme-border);
+}
+
+.input:focus-visible,
+.inputOpen {
+  border-color: var(--color-scheme-accent);
+}
+
+.input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.inputError,
+.inputError:focus-visible {
+  border-color: var(--color-red);
+}
+
+/* Варіант text-input: як Text input з UI Kit (онбординг) — 37px, без стрілки */
+.textInput {
+  height: 37px;
+  min-height: 0;
+  color: var(--color-scheme-text);
+}
+
+.textInput:hover:not(:disabled) {
+  border-color: transparent;
+}
+
+.textInput:focus-visible,
+.textInput.inputOpen {
+  border-color: var(--color-scheme-accent);
+}
+
+.textInput.inputError,
+.textInput.inputError:focus-visible {
+  border-width: 1px;
+  border-color: var(--color-red);
+  color: var(--color-red);
+}
+
+.textInput .placeholder {
+  color: var(--opacity-neutral-darkest-60);
+}
+
+.placeholder {
+  color: var(--color-neutral);
+}
+
+.arrowIcon {
+  display: block;
+  flex-shrink: 0;
+  color: var(--opacity-neutral-darkest-60);
+}
+
+.popper:global(.react-datepicker-popper) {
+  z-index: 20;
+}
+
+.calendar:global(.react-datepicker) {
+  overflow: hidden;
+
+  border: 1px solid var(--color-scheme-border);
+  border-radius: 12px;
+
+  background-color: var(--color-scheme-background);
+  color: var(--color-scheme-text);
+
+  font-family: var(--font-main);
+  font-size: 14px;
+
+  box-shadow: 0 4px 12px var(--opacity-neutral-darkest-10);
+}
+
+.calendar :global(.react-datepicker__header) {
+  padding-top: 12px;
+  border-bottom: 1px solid var(--color-scheme-border);
+  background-color: var(--color-scheme-foreground);
+}
+
+.calendar :global(.react-datepicker__current-month) {
+  margin-bottom: 8px;
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-scheme-text);
+  text-transform: capitalize;
+}
+
+.calendar :global(.react-datepicker__navigation) {
+  top: 8px;
+}
+
+.calendar :global(.react-datepicker__navigation-icon::before) {
+  border-color: var(--color-neutral-dark);
+}
+
+.calendar :global(.react-datepicker__day-name) {
+  color: var(--color-neutral);
+  font-weight: 500;
+}
+
+.calendar :global(.react-datepicker__day) {
+  border-radius: 8px;
+  color: var(--color-scheme-text);
+}
+
+.calendar :global(.react-datepicker__day:not([aria-disabled='true']):hover) {
+  background-color: var(--color-scheme-foreground);
+}
+
+.calendar :global(.react-datepicker__day--selected),
+.calendar :global(.react-datepicker__day--keyboard-selected) {
+  background-color: var(--color-scheme-accent);
+  color: var(--color-scheme-text);
+}
+
+.calendar :global(.react-datepicker__day--outside-month) {
+  color: var(--color-neutral);
+}
+
+.calendar :global(.react-datepicker__day--disabled) {
+  color: var(--color-neutral-light);
+  cursor: not-allowed;
+}
+
+.calendar :global(.react-datepicker__day--today) {
+  font-weight: 700;
+}
+
+.error {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-red);
+}
+
+@media screen and (min-width: 1440px) {
+  .label,
+  .input {
+    font-size: 16px;
+  }
+
+  .textInput {
+    height: 40px;
+  }
+}
