@@ -99,8 +99,7 @@ export default function TasksReminderCard() {
         </ul>
       )}
 
-      {/* TODO: передати onClose, коли AddTaskModal буде готова (крок 6) */}
-      {isModalOpen && <AddTaskModal />}
+      {isModalOpen && <AddTaskModal onClose={() => setIsModalOpen(false)} />}
     </section>
   );
 }
