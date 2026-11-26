@@ -1,0 +1,20 @@
+:root[data-theme='pink'] {
+  --color-scheme-foreground: var(--color-pastel-pink-lighter);
+  --color-scheme-foreground-alt: var(--color-pastel-pink-light);
+  --color-scheme-accent: var(--color-pastel-pink);
+  --color-accent-dark: var(--color-pastel-pink-dark);
+}
+
+:root[data-theme='blue'] {
+  --color-scheme-foreground: var(--color-french-pass-lighter);
+  --color-scheme-foreground-alt: var(--color-french-pass-light);
+  --color-scheme-accent: var(--color-french-pass);
+  --color-accent-dark: var(--color-french-pass-dark);
+}
+
+:root[data-theme='light'] {
+  --color-scheme-foreground: var(--color-oasis-lighter);
+  --color-scheme-foreground-alt: var(--color-oasis-light);
+  --color-scheme-accent: var(--color-oasis);
+  --color-accent-dark: var(--color-oasis-dark);
+}

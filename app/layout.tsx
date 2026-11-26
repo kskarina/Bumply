@@ -4,17 +4,35 @@ import localFont from 'next/font/local';
 import { Toaster } from 'react-hot-toast';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import ThemeProvider from '@/components/ThemeProvider/ThemeProvider';
 import AppShell from '@/components/AppShell/AppShell';
 import 'modern-normalize/modern-normalize.css';
 import './globals.css';
+import './theme.css';
 
 // Lato 2.0 підключений локально: у Google Fonts немає кирилиці і жирностей 500/600
 const lato = localFont({
   src: [
-    { path: './fonts/Lato-Regular.woff2', weight: '400', style: 'normal' },
-    { path: './fonts/Lato-Medium.woff2', weight: '500', style: 'normal' },
-    { path: './fonts/Lato-SemiBold.woff2', weight: '600', style: 'normal' },
-    { path: './fonts/Lato-Bold.woff2', weight: '700', style: 'normal' },
+    {
+      path: './fonts/Lato-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Lato-Medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Lato-SemiBold.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Lato-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
   ],
   variable: '--font-lato',
   display: 'swap',
@@ -42,9 +60,12 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       <body>
         <TanStackProvider>
           <AuthProvider>
-            <AppShell>{children}</AppShell>
+            <ThemeProvider>
+              <AppShell>{children}</AppShell>
+            </ThemeProvider>
           </AuthProvider>
         </TanStackProvider>
+
         <Toaster position="top-right" />
         <div id="modal-root" />
       </body>
