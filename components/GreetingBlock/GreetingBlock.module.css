@@ -1,5 +1,11 @@
-.greetingBlock {
-  padding: 16px;
-  border-radius: var(--radius);
-  background-color: var(--color-surface);
+.greeting {
+  min-height: 1.4em;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+@media (min-width: 1440px) {
+  .greeting {
+    font-size: 32px;
+  }
 }
