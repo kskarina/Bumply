@@ -205,6 +205,38 @@ img {
   max-width: 100%;
 }
 
+/* Скролбар з UI Kit: доріжка 6px (чорний 20%), повзунок 10px (акцентний колір) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  margin: 8px 0;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  background-color: var(--opacity-neutral-darkest-20);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: var(--color-scheme-accent);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox не підтримує ::-webkit-scrollbar — там лише кольори і тонкий скролбар */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-scheme-accent)
+      var(--opacity-neutral-darkest-20);
+  }
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
