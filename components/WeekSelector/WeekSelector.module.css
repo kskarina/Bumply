@@ -1,5 +1,53 @@
-.weekSelector {
-  padding: 16px;
-  border-radius: var(--radius);
-  background-color: var(--color-surface);
+.weekList {
+  margin: 0 -20px 32px;
+}
+
+.weekList :global(.swiper-slide) {
+  width: auto;
+}
+
+.weekLink {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+
+  border: 4px solid transparent;
+  border-radius: 32px;
+  width: 97px;
+  height: 87px;
+  background: var(--color-scheme-foreground);
+}
+
+.weekLink[aria-disabled='true'] {
+  background: var(--color-neutral-lightest);
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.swiper-slide:has(.weekLink[aria-disabled='true']) {
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+
+.active {
+  border-color: var(--color-scheme-foreground-alt);
+}
+
+.current {
+  border-color: var(--color-scheme-border);
+  background-color: var(--color-scheme-accent);
+}
+
+.counter {
+  display: block;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
 }

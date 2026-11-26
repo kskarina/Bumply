@@ -1,5 +1,31 @@
-.journeyDetails {
-  padding: 16px;
-  border-radius: var(--radius);
-  background-color: var(--color-surface);
+.navList {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--opacity-transparent);
+  border-radius: 100px;
+  padding: 4px;
+  background-color: var(--color-scheme-foreground);
+  margin-bottom: 16px;
+}
+
+.navItem {
+  width: 50%;
+}
+
+.navBtn {
+  font-size: 14px;
+  color: var(--color-scheme-text);
+
+  border: 1px solid var(--opacity-transparent);
+  background-color: transparent;
+  border-radius: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.active {
+  background-color: var(--color-scheme-foreground-alt);
 }

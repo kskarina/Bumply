@@ -1,6 +1,6 @@
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
-import WeekSelector from '@/components/WeekSelector/WeekSelector';
 import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
+import WeekSelector from '@/components/WeekSelector/WeekSelector';
 
 import css from './JourneyPage.module.css';
 
@@ -14,10 +14,10 @@ const JourneyPage = async ({ params }: Props) => {
   return (
     <div className={css.journey}>
       <GreetingBlock />
-      <WeekSelector />
+      <WeekSelector weekNumber={Number(weekNumber)} />
       {/* weekNumber передати в WeekSelector і JourneyDetails, коли вони будуть готові */}
       <p className="visually-hidden">Тиждень {weekNumber}</p>
-      <JourneyDetails />
+      <JourneyDetails weekNumber={Number(weekNumber)} />
     </div>
   );
 };
