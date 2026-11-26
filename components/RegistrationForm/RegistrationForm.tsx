@@ -1,20 +1,26 @@
 'use client';
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
-import css from './RegistrationForm.module.css';
-import { useId, useState } from 'react';
-import { register, RegisterRequest } from '@/lib/api/clientApi';
-import * as Yup from 'yup';
+
+import { useId } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { AxiosError } from 'axios';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import clsx from 'clsx';
+import toast from 'react-hot-toast';
+import Loader from '@/components/Loader/Loader';
+import { getMe, register, RegisterRequest } from '@/lib/api/clientApi';
+import { getErrorMessage } from '@/lib/api/getErrorMessage';
+import { useAuthStore } from '@/lib/store/authStore';
+import css from './RegistrationForm.module.css';
 
-export type ApiError = AxiosError<{ error: string }>;
-
-const RegistrationFormSchema = Yup.object().shape({
+const validationSchema = Yup.object({
   name: Yup.string()
+    .trim()
     .min(2, 'Ім’я має містити щонайменше 2 символи.')
     .max(32, 'Ім’я має містити не більше 32 символів.')
     .required('Ім’я обов’язкове.'),
   email: Yup.string()
+    .trim()
     .email('Неправильний формат електронної пошти.')
     .max(64, 'Пошта має містити не більше 64 символів.')
     .required('Пошта обов’язкова.'),
@@ -32,90 +38,119 @@ const initialValues: RegisterRequest = {
 
 export default function RegistrationForm() {
   const fieldId = useId();
-  const [error, setError] = useState('');
   const router = useRouter();
+  const setUser = useAuthStore(s => s.setUser);
 
-  const handleSubmit = async (
-    values: RegisterRequest,
-    actions: FormikHelpers<RegisterRequest>
-  ) => {
+  const handleSubmit = async (values: RegisterRequest) => {
     try {
-      const res = await register(values);
-      if (res) {
-        router.push('/');
-      } else {
-        setError('Invalid email or password');
-      }
-      actions.resetForm();
+      await register({
+        ...values,
+        name: values.name.trim(),
+        email: values.email.trim(),
+      });
+      const user = await getMe();
+      setUser(user);
+      router.push('/profile/edit');
     } catch (error) {
-      setError(
-        (error as ApiError).response?.data?.error ??
-          (error as ApiError).message ??
-          'Oops... some error'
-      );
+      toast.error(getErrorMessage(error));
     }
   };
 
   return (
     <section className={css.registrationForm}>
-      <h2>Реєстрація</h2>
+      <h1 className={css.title}>Реєстрація</h1>
+
       <Formik
         initialValues={initialValues}
+        validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        validationSchema={RegistrationFormSchema}
       >
-        <Form className={css.form}>
-          <label className={css.label}>
-            <span>
-              Ім’я<sup>*</sup>
-            </span>
-            <Field
-              type="text"
-              name="name"
-              id={`${fieldId}-name`}
-              className={css.field}
-            />
-            <div className={css.error}>
-              <ErrorMessage name="name" component="span" />
-            </div>
-          </label>
-          <label className={css.label}>
-            <span>
-              Пошта<sup>*</sup>
-            </span>
-            <Field
-              type="email"
-              name="email"
-              id={`${fieldId}-email`}
-              className={css.field}
-            />
-            <div className={css.error}>
-              <ErrorMessage name="email" component="span" />
-            </div>
-          </label>
-          <label className={css.label}>
-            <span>
-              Пароль<sup>*</sup>
-            </span>
-            <Field
-              type="password"
-              name="password"
-              id={`${fieldId}-password`}
-              className={css.field}
-            />
-            <div className={css.error}>
+        {({ errors, touched, isSubmitting }) => (
+          <Form className={css.form} noValidate>
+            <div className={css.field}>
+              <label htmlFor={`${fieldId}-name`} className={css.label}>
+                Ім’я*
+              </label>
+              <Field
+                id={`${fieldId}-name`}
+                name="name"
+                type="text"
+                placeholder="Ваше ім’я"
+                autoComplete="name"
+                className={clsx(
+                  css.input,
+                  touched.name && errors.name && css.inputError
+                )}
+              />
               <ErrorMessage
-                name="password"
-                component="span"
-                className={css.error}
+                name="name"
+                component="p"
+                className={css.errorText}
               />
             </div>
-          </label>
-          <button type="submit" className={css.button}>
-            Зареєструватись
-          </button>
-          {error && <p>{error}</p>}
-        </Form>
+
+            <div className={css.field}>
+              <label htmlFor={`${fieldId}-email`} className={css.label}>
+                Пошта*
+              </label>
+              <Field
+                id={`${fieldId}-email`}
+                name="email"
+                type="email"
+                placeholder="hello@leleka.com"
+                autoComplete="email"
+                className={clsx(
+                  css.input,
+                  touched.email && errors.email && css.inputError
+                )}
+              />
+              <ErrorMessage
+                name="email"
+                component="p"
+                className={css.errorText}
+              />
+            </div>
+
+            <div className={css.field}>
+              <label htmlFor={`${fieldId}-password`} className={css.label}>
+                Пароль*
+              </label>
+              <Field
+                id={`${fieldId}-password`}
+                name="password"
+                type="password"
+                placeholder="********"
+                autoComplete="new-password"
+                className={clsx(
+                  css.input,
+                  touched.password && errors.password && css.inputError
+                )}
+              />
+              <ErrorMessage
+                name="password"
+                component="p"
+                className={css.errorText}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className={css.button}
+              disabled={isSubmitting}
+            >
+              Зареєструватись
+            </button>
+
+            <p className={css.switch}>
+              Вже маєте аккаунт?{' '}
+              <Link href="/auth/login" className={css.link}>
+                Увійти
+              </Link>
+            </p>
+
+            {isSubmitting && <Loader fullScreen />}
+          </Form>
+        )}
       </Formik>
     </section>
   );

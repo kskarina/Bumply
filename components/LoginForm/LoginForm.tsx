@@ -1,17 +1,21 @@
 'use client';
-import css from './LoginForm.module.css';
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
-import { useId, useState } from 'react';
-import { login, LoginRequest } from '@/lib/api/clientApi';
-import * as Yup from 'yup';
+
+import { useId } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { AxiosError } from 'axios';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import clsx from 'clsx';
+import toast from 'react-hot-toast';
+import Loader from '@/components/Loader/Loader';
+import { login, LoginRequest } from '@/lib/api/clientApi';
+import { getErrorMessage } from '@/lib/api/getErrorMessage';
 import { useAuthStore } from '@/lib/store/authStore';
+import css from './LoginForm.module.css';
 
-export type ApiError = AxiosError<{ error: string }>;
-
-const RegistrationFormSchema = Yup.object().shape({
+const validationSchema = Yup.object({
   email: Yup.string()
+    .trim()
     .email('Неправильний формат електронної пошти.')
     .max(64, 'Пошта має містити не більше 64 символів.')
     .required('Пошта обов’язкова.'),
@@ -28,74 +32,88 @@ const initialValues: LoginRequest = {
 
 export default function LoginForm() {
   const fieldId = useId();
-  const [error, setError] = useState('');
   const router = useRouter();
-  const setUser = useAuthStore(state => state.setUser);
+  const setUser = useAuthStore(s => s.setUser);
 
-  const handleSubmit = async (
-    values: LoginRequest,
-    actions: FormikHelpers<LoginRequest>
-  ) => {
+  const handleSubmit = async (values: LoginRequest) => {
     try {
-      const user = await login(values);
-      if (user) {
-        setUser(user);
-        router.push('/journey');
-      } else {
-        setError('Invalid email or password');
-      }
-      actions.resetForm();
+      const user = await login({ ...values, email: values.email.trim() });
+      setUser(user);
+      router.push('/');
     } catch (error) {
-      setError(
-        (error as ApiError).response?.data?.error ??
-          (error as ApiError).message ??
-          'Oops... some error'
-      );
+      toast.error(getErrorMessage(error));
     }
   };
 
   return (
     <section className={css.loginForm}>
-      <h2>Вхід</h2>
+      <h1 className={css.title}>Вхід</h1>
+
       <Formik
         initialValues={initialValues}
+        validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        validationSchema={RegistrationFormSchema}
       >
-        <Form className={css.form}>
-          <label className={css.label}>
-            <Field
-              type="email"
-              name="email"
-              id={`${fieldId}-email`}
-              className={css.field}
-              placeholder="Пошта"
-            />
-            <div className={css.error}>
-              <ErrorMessage name="email" component="span" />
-            </div>
-          </label>
-          <label className={css.label}>
-            <Field
-              type="password"
-              name="password"
-              id={`${fieldId}-password`}
-              className={css.field}
-              placeholder="Пароль"
-            />
-            <div className={css.error}>
+        {({ errors, touched, isSubmitting }) => (
+          <Form className={css.form} noValidate>
+            <div className={css.field}>
+              <Field
+                id={`${fieldId}-email`}
+                name="email"
+                type="email"
+                placeholder="Пошта"
+                aria-label="Пошта"
+                autoComplete="email"
+                className={clsx(
+                  css.input,
+                  touched.email && errors.email && css.inputError
+                )}
+              />
               <ErrorMessage
-                name="password"
-                component="span"
-                className={css.error}
+                name="email"
+                component="p"
+                className={css.errorText}
               />
             </div>
-          </label>
-          <button type="submit" className={css.button}>
-            Увійти
-          </button>
-          {error && <p>{error}</p>}
-        </Form>
+
+            <div className={css.field}>
+              <Field
+                id={`${fieldId}-password`}
+                name="password"
+                type="password"
+                placeholder="Пароль"
+                aria-label="Пароль"
+                autoComplete="current-password"
+                className={clsx(
+                  css.input,
+                  touched.password && errors.password && css.inputError
+                )}
+              />
+              <ErrorMessage
+                name="password"
+                component="p"
+                className={css.errorText}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className={css.button}
+              disabled={isSubmitting}
+            >
+              Увійти
+            </button>
+
+            <p className={css.switch}>
+              Немає аккаунту?{' '}
+              <Link href="/auth/register" className={css.link}>
+                Зареєструватися
+              </Link>
+            </p>
+
+            {isSubmitting && <Loader fullScreen />}
+          </Form>
+        )}
       </Formik>
     </section>
   );

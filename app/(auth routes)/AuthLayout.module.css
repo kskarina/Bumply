@@ -1,10 +1,3 @@
 .authMain {
   min-height: 100vh;
-  padding: 24px 16px;
-}
-
-@media (min-width: 768px) {
-  .authMain {
-    padding: 32px;
-  }
 }
