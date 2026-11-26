@@ -8,6 +8,7 @@ export interface User {
   avatarUrl: string;
   dueDate: string | null;
   babyGender: BabyGender | null;
+  curWeekNumber: number;
   theme?: string;
 }
 
