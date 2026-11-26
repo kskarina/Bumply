@@ -16,6 +16,8 @@
   max-width: 335px;
   padding: 64px 20px;
   border-radius: var(--radius-lg);
+  /* календар DatePickerField випадає за межі вікна — не обрізаємо його */
+  overflow: visible;
 }
 
 [role='dialog']:has(.addTaskModal) > button {
