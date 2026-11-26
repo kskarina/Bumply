@@ -1,6 +1,7 @@
 'use client';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import Select, { components, type DropdownIndicatorProps } from 'react-select';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 import clsx from 'clsx';
@@ -8,14 +9,29 @@ import clsx from 'clsx';
 import { updateMe } from '@/lib/api/clientApi';
 import { getErrorMessage } from '@/lib/api/getErrorMessage';
 import { useAuthStore } from '@/lib/store/authStore';
+import type { BabyGender } from '@/types/user';
+
 import Loader from '@/components/Loader/Loader';
+import Icon from '@/components/Icon/Icon';
 
 import css from './ProfileEditForm.module.css';
+
+interface GenderOption {
+  value: BabyGender;
+  label: string;
+}
 
 interface ProfileFormValues {
   name: string;
   email: string;
+  babyGender: BabyGender | '';
 }
+
+const genderOptions: GenderOption[] = [
+  { value: 'girl', label: 'Дівчинка' },
+  { value: 'boy', label: 'Хлопчик' },
+  { value: 'unknown', label: 'Ще не знаю' },
+];
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -23,7 +39,29 @@ const validationSchema = Yup.object({
     .min(2, 'Ім’я має містити щонайменше 2 символи')
     .max(32, 'Ім’я має містити не більше 32 символів')
     .required('Введіть ім’я'),
+
+  babyGender: Yup.string()
+    .oneOf(['girl', 'boy', 'unknown'], 'Оберіть стать дитини')
+    .required('Оберіть стать дитини'),
 });
+
+function SelectDropdownIndicator(
+  props: DropdownIndicatorProps<GenderOption, false>
+) {
+  return (
+    <components.DropdownIndicator {...props}>
+      <Icon
+        name={
+          props.selectProps.menuIsOpen
+            ? 'keyboard-arrow-up'
+            : 'keyboard-arrow-down'
+        }
+        size={20}
+        className={css.arrowIcon}
+      />
+    </components.DropdownIndicator>
+  );
+}
 
 export default function ProfileEditForm() {
   const user = useAuthStore(state => state.user);
@@ -36,6 +74,7 @@ export default function ProfileEditForm() {
   const initialValues: ProfileFormValues = {
     name: user.name ?? '',
     email: user.email ?? '',
+    babyGender: user.babyGender ?? '',
   };
 
   return (
@@ -44,9 +83,16 @@ export default function ProfileEditForm() {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
+        if (!values.babyGender) {
+          actions.setFieldError('babyGender', 'Оберіть стать дитини');
+          actions.setSubmitting(false);
+          return;
+        }
+
         try {
           const updatedUser = await updateMe({
             name: values.name.trim(),
+            babyGender: values.babyGender,
           });
 
           const currentUser = useAuthStore.getState().user;
@@ -64,6 +110,7 @@ export default function ProfileEditForm() {
             values: {
               name: updatedUser.name,
               email: currentUser.email,
+              babyGender: updatedUser.babyGender ?? '',
             },
           });
 
@@ -75,7 +122,16 @@ export default function ProfileEditForm() {
         }
       }}
     >
-      {({ values, errors, touched, resetForm, isSubmitting, dirty }) => (
+      {({
+        values,
+        errors,
+        touched,
+        setFieldValue,
+        setFieldTouched,
+        resetForm,
+        isSubmitting,
+        dirty,
+      }) => (
         <Form className={css.form} noValidate>
           <div className={css.fieldGroup}>
             <label htmlFor="name" className={css.label}>
@@ -110,7 +166,51 @@ export default function ProfileEditForm() {
               value={values.email}
               readOnly
               aria-readonly="true"
-              className={css.input}
+              className={clsx(css.input, css.readonlyInput)}
+            />
+          </div>
+
+          <div className={css.fieldGroup}>
+            <label htmlFor="babyGender" className={css.label}>
+              Стать дитини
+            </label>
+
+            <Select<GenderOption, false>
+              instanceId="profile-gender"
+              inputId="babyGender"
+              name="babyGender"
+              options={genderOptions}
+              value={
+                genderOptions.find(
+                  option => option.value === values.babyGender
+                ) ?? null
+              }
+              onChange={option => {
+                setFieldValue('babyGender', option?.value ?? '');
+              }}
+              onBlur={() => {
+                setFieldTouched('babyGender', true);
+              }}
+              placeholder="Оберіть стать"
+              isSearchable={false}
+              isDisabled={isSubmitting}
+              aria-invalid={Boolean(touched.babyGender && errors.babyGender)}
+              unstyled
+              className={clsx(
+                css.select,
+                touched.babyGender && errors.babyGender && css.selectError
+              )}
+              classNamePrefix="profileSelect"
+              components={{
+                DropdownIndicator: SelectDropdownIndicator,
+                IndicatorSeparator: null,
+              }}
+            />
+
+            <ErrorMessage
+              name="babyGender"
+              component="p"
+              className={css.error}
             />
           </div>
 

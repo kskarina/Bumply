@@ -42,6 +42,10 @@
   border-color: var(--color-neutral);
 }
 
+.readonlyInput {
+  cursor: not-allowed;
+}
+
 .inputError {
   border-color: var(--color-red);
 }
@@ -54,6 +58,86 @@
   font-size: 12px;
   line-height: 1.4;
   color: var(--color-red);
+}
+
+.select {
+  width: 100%;
+  font-family: var(--font-main);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.select :global(.profileSelect__control) {
+  min-height: 37px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background-color: var(--opacity-neutral-darkest-5);
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.select :global(.profileSelect__control):hover {
+  border-color: var(--color-scheme-border);
+}
+
+.select :global(.profileSelect__control--is-focused) {
+  border-color: var(--color-neutral);
+}
+
+.select :global(.profileSelect__control--is-disabled) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.selectError :global(.profileSelect__control),
+.selectError :global(.profileSelect__control--is-focused) {
+  border-color: var(--color-red);
+}
+
+.select :global(.profileSelect__value-container) {
+  padding: 6px 12px;
+}
+
+.select :global(.profileSelect__single-value),
+.select :global(.profileSelect__placeholder) {
+  margin: 0;
+  color: var(--opacity-neutral-darkest-60);
+}
+
+.select :global(.profileSelect__dropdown-indicator) {
+  padding: 0 12px;
+}
+
+.arrowIcon {
+  display: block;
+  color: var(--opacity-neutral-darkest-60);
+}
+
+.select :global(.profileSelect__menu) {
+  z-index: 10;
+  overflow: hidden;
+  margin-top: 4px;
+  border: 1px solid var(--color-scheme-border);
+  border-radius: 12px;
+  background-color: var(--color-scheme-background);
+  box-shadow: 0 4px 12px var(--opacity-neutral-darkest-10);
+}
+
+.select :global(.profileSelect__menu-list) {
+  padding: 0;
+}
+
+.select :global(.profileSelect__option) {
+  padding: 8px 12px;
+  color: var(--color-scheme-text);
+  background-color: var(--color-scheme-background);
+  cursor: pointer;
+}
+
+.select :global(.profileSelect__option--is-focused),
+.select :global(.profileSelect__option--is-selected) {
+  background-color: var(--opacity-neutral-darkest-5);
 }
 
 .actions {
@@ -128,11 +212,13 @@
 
 @media screen and (min-width: 1440px) {
   .label,
-  .input {
+  .input,
+  .select {
     font-size: 16px;
   }
 
-  .input {
+  .input,
+  .select :global(.profileSelect__control) {
     min-height: 40px;
   }
 
