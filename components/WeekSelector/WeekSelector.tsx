@@ -16,7 +16,7 @@ export default function WeekSelector({ weekNumber }: WeekSelectorProps) {
   const user = useAuthStore(s => s.user);
   const currentWeek = user?.curWeekNumber ?? 0;
 
-  for (let i = 0; i <= 42; i += 1) {
+  for (let i = 1; i <= 42; i += 1) {
     const isCurrentWeek = i === currentWeek;
     const isActive = i === weekNumber;
     const isDisabled = i > currentWeek;
@@ -48,6 +48,9 @@ export default function WeekSelector({ weekNumber }: WeekSelectorProps) {
       freeMode={true}
       initialSlide={weekNumber - 1}
       className={css.weekList}
+      centeredSlides={true}
+      slideToClickedSlide={true}
+      centeredSlidesBounds={true}
     >
       {items}
     </Swiper>

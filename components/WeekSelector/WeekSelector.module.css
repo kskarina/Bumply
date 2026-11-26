@@ -30,6 +30,11 @@
   pointer-events: none;
 }
 
+.swiper-slide:has(.weekLink[aria-disabled='true']) {
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+
 .active {
   border-color: var(--color-scheme-foreground-alt);
 }
