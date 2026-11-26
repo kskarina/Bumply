@@ -67,6 +67,33 @@
   border-color: var(--color-red);
 }
 
+/* Варіант text-input: як Text input з UI Kit (онбординг) — 37px, без стрілки */
+.textInput {
+  height: 37px;
+  min-height: 0;
+  color: var(--color-scheme-text);
+}
+
+.textInput:hover:not(:disabled) {
+  border-color: transparent;
+}
+
+.textInput:focus-visible,
+.textInput.inputOpen {
+  border-color: var(--color-scheme-accent);
+}
+
+.textInput.inputError,
+.textInput.inputError:focus-visible {
+  border-width: 1px;
+  border-color: var(--color-red);
+  color: var(--color-red);
+}
+
+.textInput .placeholder {
+  color: var(--opacity-neutral-darkest-60);
+}
+
 .placeholder {
   color: var(--color-neutral);
 }
@@ -163,5 +190,9 @@
   .label,
   .input {
     font-size: 16px;
+  }
+
+  .textInput {
+    height: 40px;
   }
 }

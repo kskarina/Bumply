@@ -3,15 +3,17 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 import clsx from 'clsx';
+import { addWeeks, format, parseISO, startOfDay } from 'date-fns';
 import { updateAvatar, updateMe } from '@/lib/api/clientApi';
 import { getErrorMessage } from '@/lib/api/getErrorMessage';
 import { useAuthStore } from '@/lib/store/authStore';
 import Loader from '@/components/Loader/Loader';
 import Icon from '@/components/Icon/Icon';
+import DatePickerField from '@/components/DatePickerField/DatePickerField';
 import type { BabyGender } from '@/types/user';
 import css from './OnboardingForm.module.css';
 
@@ -30,15 +32,15 @@ const genderOptions: { value: BabyGender; label: string }[] = [
   { value: 'unknown', label: 'Ще не знаю' },
 ];
 
-// дата у форматі РРРР-ММ-ДД через n тижнів від сьогодні
-const dateInWeeks = (weeks: number) => {
-  const date = new Date();
-  date.setDate(date.getDate() + weeks * 7);
-  return date.toISOString().slice(0, 10);
-};
+// бекенд приймає дату у форматі РРРР-ММ-ДД
+const DATE_FORMAT = 'yyyy-MM-dd';
 
-const minDueDate = dateInWeeks(1);
-const maxDueDate = dateInWeeks(41);
+// планова дата — від 1 до 41 тижня від сьогодні
+const today = startOfDay(new Date());
+const minDate = addWeeks(today, 1);
+const maxDate = addWeeks(today, 41);
+const minDueDate = format(minDate, DATE_FORMAT);
+const maxDueDate = format(maxDate, DATE_FORMAT);
 
 const validationSchema = Yup.object({
   avatar: Yup.mixed<File>()
@@ -231,27 +233,21 @@ export default function OnboardingForm() {
               </div>
             </div>
 
-            <div className={css.field}>
-              <label htmlFor="dueDate" className={css.label}>
-                Планова дата пологів
-              </label>
-              <Field
-                id="dueDate"
-                name="dueDate"
-                type="date"
-                min={minDueDate}
-                max={maxDueDate}
-                className={clsx(
-                  css.input,
-                  touched.dueDate && errors.dueDate && css.inputError
-                )}
-              />
-              <ErrorMessage
-                name="dueDate"
-                component="p"
-                className={css.errorText}
-              />
-            </div>
+            <DatePickerField
+              id="dueDate"
+              label="Планова дата пологів"
+              variant="text-input"
+              placeholder="дд.мм.рррр"
+              value={values.dueDate ? parseISO(values.dueDate) : null}
+              onChange={date => {
+                setFieldValue('dueDate', date ? format(date, DATE_FORMAT) : '');
+                setFieldTouched('dueDate', true, false);
+              }}
+              onBlur={() => setFieldTouched('dueDate', true)}
+              minDate={minDate}
+              maxDate={maxDate}
+              error={touched.dueDate ? errors.dueDate : undefined}
+            />
           </div>
 
           <button
