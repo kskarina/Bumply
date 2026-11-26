@@ -24,11 +24,14 @@ interface DatePickerFieldProps {
   placeholder?: string;
   error?: string;
   disabled?: boolean;
+  // select — як у профілі (48px зі стрілкою), text-input — як Text input з UI Kit (онбординг)
+  variant?: 'select' | 'text-input';
 }
 
 interface DateInputProps extends ComponentPropsWithoutRef<'button'> {
   placeholder?: string;
   isOpen: boolean;
+  showArrow: boolean;
 }
 
 const DateInput = forwardRef<HTMLButtonElement, DateInputProps>(
@@ -37,6 +40,7 @@ const DateInput = forwardRef<HTMLButtonElement, DateInputProps>(
       value,
       placeholder,
       isOpen,
+      showArrow,
       className,
       id,
       onClick,
@@ -70,11 +74,13 @@ const DateInput = forwardRef<HTMLButtonElement, DateInputProps>(
           {value || placeholder}
         </span>
 
-        <Icon
-          name={isOpen ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
-          size={20}
-          className={css.arrowIcon}
-        />
+        {showArrow && (
+          <Icon
+            name={isOpen ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
+            size={20}
+            className={css.arrowIcon}
+          />
+        )}
       </button>
     );
   }
@@ -91,8 +97,10 @@ export default function DatePickerField({
   placeholder = 'Оберіть дату',
   error,
   disabled = false,
+  variant = 'select',
 }: DatePickerFieldProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const isTextInput = variant === 'text-input';
 
   return (
     <div className={css.field}>
@@ -124,6 +132,7 @@ export default function DatePickerField({
         ariaLabel={label ? undefined : placeholder}
         className={clsx(
           css.input,
+          isTextInput && css.textInput,
           isOpen && css.inputOpen,
           error && css.inputError
         )}
@@ -132,7 +141,7 @@ export default function DatePickerField({
         popperClassName={css.popper}
         popperPlacement="bottom-start"
         showPopperArrow={false}
-        customInput={<DateInput isOpen={isOpen} />}
+        customInput={<DateInput isOpen={isOpen} showArrow={!isTextInput} />}
       />
 
       {error && (

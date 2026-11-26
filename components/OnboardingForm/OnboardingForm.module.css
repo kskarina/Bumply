@@ -120,33 +120,6 @@
   background-color: var(--opacity-neutral-darkest-5);
 }
 
-/* UI Kit: Text input (Default / Focused / Error) */
-.input {
-  width: 100%;
-  height: 37px;
-  padding: 8px 12px;
-  border: 2px solid transparent;
-  border-radius: 12px;
-  background-color: var(--opacity-neutral-darkest-5);
-  font: inherit;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--color-text);
-  transition: border-color var(--transition);
-}
-
-.input:focus {
-  outline: none;
-  border-color: var(--color-pastel-pink);
-}
-
-.inputError,
-.inputError:focus {
-  border-width: 1px;
-  border-color: var(--color-red);
-  color: var(--color-red);
-}
-
 .errorText {
   font-size: 12px;
   line-height: 1.6;
@@ -212,11 +185,6 @@
   .label,
   .selectTrigger,
   .selectOption {
-    font-size: 16px;
-  }
-
-  .input {
-    height: 40px;
     font-size: 16px;
   }
 
