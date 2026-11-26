@@ -7,16 +7,23 @@ import FeelingCheckCard from '@/components/FeelingCheckCard/FeelingCheckCard';
 
 import css from './DashboardPage.module.css';
 
-// "Мій день" — головний екран (дашборд), доступний і без авторизації
 const DashboardPage = () => {
   return (
     <div className={css.dashboard}>
       <GreetingBlock />
-      <StatusBlock />
-      <BabyTodayCard />
-      <MomTipCard />
-      <TasksReminderCard />
-      <FeelingCheckCard />
+      <div className={css.content}>
+        <div className={css.leftColumn}>
+          <StatusBlock />
+          <div className={css.babyAndTip}>
+            <BabyTodayCard />
+            <MomTipCard />
+          </div>
+        </div>
+        <div className={css.rightColumn}>
+          <TasksReminderCard />
+          <FeelingCheckCard />
+        </div>
+      </div>
     </div>
   );
 };

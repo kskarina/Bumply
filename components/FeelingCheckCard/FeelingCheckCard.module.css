@@ -1,5 +1,80 @@
 .feelingCheckCard {
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 24px;
   border-radius: var(--radius);
   background-color: var(--color-surface);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.recommendation {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 10px 24px;
+  border: 1px solid var(--color-pastel-pink);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-pastel-pink-light);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition);
+}
+
+.button:hover,
+.button:focus-visible {
+  border-color: var(--color-scheme-border);
+  background-color: var(--color-white);
+}
+
+.button:active {
+  border-color: var(--color-scheme-border);
+  background-color: var(--color-neutral-light);
+}
+
+@media (min-width: 1440px) {
+  .feelingCheckCard {
+    height: 210px;
+    overflow-y: auto;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .label,
+  .recommendation {
+    font-size: 16px;
+  }
+
+  .button {
+    height: 46px;
+    font-size: 16px;
+  }
 }

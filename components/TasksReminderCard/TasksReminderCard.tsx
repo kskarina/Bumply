@@ -1,10 +1,106 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import AddTaskModal from '@/components/AddTaskModal/AddTaskModal';
+import Icon from '@/components/Icon/Icon';
+import Loader from '@/components/Loader/Loader';
+import { fetchTasks, updateTaskStatus } from '@/lib/api/clientApi';
+import { getErrorMessage } from '@/lib/api/getErrorMessage';
+import { useAuthStore } from '@/lib/store/authStore';
 import css from './TasksReminderCard.module.css';
 
-// TODO: Список завдань з чекбоксами + кнопка створення. Деталі — у ТЗ та макеті
+const formatDate = (date: string) => `${date.slice(8, 10)}.${date.slice(5, 7)}`;
+
 export default function TasksReminderCard() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const isAuthenticated = useAuthStore(s => s.isAuthenticated);
+  const isAuthChecked = useAuthStore(s => s.isAuthChecked);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: () => fetchTasks({ sortOrder: 'asc', limit: 100 }),
+    enabled: isAuthenticated,
+  });
+
+  const { mutate: toggleTask } = useMutation({
+    mutationFn: ({ taskId, isDone }: { taskId: string; isDone: boolean }) =>
+      updateTaskStatus(taskId, isDone),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tasks'] }),
+    onError: err => toast.error(getErrorMessage(err)),
+  });
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(getErrorMessage(error), { id: 'tasks' });
+    }
+  }, [isError, error]);
+
+  const handleAddClick = () => {
+    if (isAuthenticated) {
+      setIsModalOpen(true);
+    } else {
+      router.push('/auth/register');
+    }
+  };
+
+  const tasks = data?.tasks ?? [];
+
   return (
     <section className={css.tasksReminderCard}>
-      <h2>TasksReminderCard</h2>
+      <div className={css.header}>
+        <h2 className={css.title}>Важливі завдання</h2>
+        <button
+          type="button"
+          className={css.addButton}
+          onClick={handleAddClick}
+          aria-label="Додати завдання"
+        >
+          <Icon name="add-circle" size={24} />
+        </button>
+      </div>
+
+      {(!isAuthChecked || isLoading) && <Loader />}
+
+      {isAuthChecked && !isLoading && tasks.length === 0 && (
+        <div className={css.empty}>
+          <div className={css.emptyText}>
+            <p className={css.emptyTitle}>Наразі немає жодних завдань</p>
+            <p className={css.emptyHint}>Створіть мерщій нове завдання!</p>
+          </div>
+          <button type="button" className={css.button} onClick={handleAddClick}>
+            Створити завдання
+          </button>
+        </div>
+      )}
+
+      {tasks.length > 0 && (
+        <ul className={css.list}>
+          {tasks.map(task => (
+            <li key={task._id} className={css.item}>
+              <p className={css.date}>{formatDate(task.date)}</p>
+              <label className={css.row}>
+                <input
+                  type="checkbox"
+                  className={css.checkbox}
+                  checked={task.isDone}
+                  onChange={() =>
+                    toggleTask({ taskId: task._id, isDone: !task.isDone })
+                  }
+                />
+                <span className={css.name}>{task.name}</span>
+              </label>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* TODO: передати onClose, коли AddTaskModal буде готова (крок 6) */}
+      {isModalOpen && <AddTaskModal />}
     </section>
   );
 }
