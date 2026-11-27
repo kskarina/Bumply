@@ -1,8 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import AddTaskModal from '@/components/AddTaskModal/AddTaskModal';
 import Icon from '@/components/Icon/Icon';
@@ -12,6 +16,8 @@ import { getErrorMessage } from '@/lib/api/getErrorMessage';
 import { useAuthStore } from '@/lib/store/authStore';
 import css from './TasksReminderCard.module.css';
 
+const TASKS_PER_PAGE = 10;
+
 const formatDate = (date: string) => `${date.slice(8, 10)}.${date.slice(5, 7)}`;
 
 export default function TasksReminderCard() {
@@ -20,10 +26,23 @@ export default function TasksReminderCard() {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
   const isAuthChecked = useAuthStore(s => s.isAuthChecked);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
 
-  const { data, isLoading, isError, error } = useQuery({
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
     queryKey: ['tasks'],
-    queryFn: () => fetchTasks({ sortOrder: 'asc', limit: 100 }),
+    queryFn: ({ pageParam }) =>
+      fetchTasks({ sortOrder: 'asc', page: pageParam, limit: TASKS_PER_PAGE }),
+    initialPageParam: 1,
+    getNextPageParam: lastPage =>
+      lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
     enabled: isAuthenticated,
   });
 
@@ -40,6 +59,23 @@ export default function TasksReminderCard() {
     }
   }, [isError, error]);
 
+  useEffect(() => {
+    const target = loadMoreRef.current;
+    if (!target || !hasNextPage) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { rootMargin: '100px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
   const handleAddClick = () => {
     if (isAuthenticated) {
       setIsModalOpen(true);
@@ -48,7 +84,7 @@ export default function TasksReminderCard() {
     }
   };
 
-  const tasks = data?.tasks ?? [];
+  const tasks = data?.pages.flatMap(page => page.tasks) ?? [];
 
   return (
     <section className={css.tasksReminderCard}>
@@ -97,6 +133,12 @@ export default function TasksReminderCard() {
             </li>
           ))}
         </ul>
+      )}
+
+      {hasNextPage && (
+        <div ref={loadMoreRef} className={css.loadMore}>
+          {isFetchingNextPage && <Loader />}
+        </div>
       )}
 
       {isModalOpen && <AddTaskModal onClose={() => setIsModalOpen(false)} />}

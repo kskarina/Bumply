@@ -36,9 +36,9 @@
   justify-content: center;
   height: 42px;
   padding: 10px 24px;
-  border: 1px solid var(--color-pastel-pink);
+  border: 1px solid var(--color-scheme-accent);
   border-radius: var(--radius-pill);
-  background-color: var(--color-pastel-pink-light);
+  background-color: var(--color-scheme-foreground-alt);
   font-size: 14px;
   font-weight: 500;
   line-height: 1.6;
