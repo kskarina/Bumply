@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 
 export default function DiaryContentClient() {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['diary'],
+    queryKey: ['diaryEntries'],
     queryFn: () => fetchDiaryNotes(),
     refetchOnMount: false,
   });
@@ -25,8 +25,9 @@ export default function DiaryContentClient() {
     }
   }, [isError, error]);
 
-  const entries = data?.tasks ?? [];
+  const entries = data?.diaryNotes ?? [];
   const { entryId } = useParams<{ entryId: string }>;
+  console.log(entries);
 
   const selectedEntry = undefined;
   return (

@@ -11,7 +11,7 @@ export interface DiaryNote {
 
 // бекенд віддає записи щоденника саме в полі "tasks"
 export interface DiaryNotesResponse extends Paginated {
-  tasks: DiaryNote[];
+  diaryNotes: DiaryNote[];
 }
 
 export interface DiaryNoteData {

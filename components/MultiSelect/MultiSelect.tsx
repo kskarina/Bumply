@@ -5,18 +5,15 @@ import type { OptionProps } from 'react-select';
 import { useField } from 'formik';
 import css from './MultiSelect.module.css';
 
-export type SelectOption = {
-  value: string;
-  label: string;
-};
-
-interface MultiSelectProps {
+interface MultiSelectProps<T> {
   name: string;
-  options: SelectOption[];
+  options: T[];
+  valueKey: keyof T;
+  labelKey: keyof T;
   placeholder?: string;
 }
 
-const CheckboxOption = (props: OptionProps<SelectOption, true>) => {
+function CheckboxOption<T>(props: OptionProps<T, true>) {
   return (
     <components.Option {...props}>
       <input
@@ -31,25 +28,32 @@ const CheckboxOption = (props: OptionProps<SelectOption, true>) => {
       {props.label}
     </components.Option>
   );
-};
+}
 
-export default function MultiSelect({
+export default function MultiSelect<T>({
   name,
   options,
+  valueKey,
+  labelKey,
   placeholder = 'Оберіть значення',
-}: MultiSelectProps) {
+}: MultiSelectProps<T>) {
   const [field, meta, helpers] = useField<string[]>(name);
 
   const hasError = meta.touched && Boolean(meta.error);
 
+  const getValue = (option: T) => String(option[valueKey]);
+  const getLabel = (option: T) => String(option[labelKey]);
+
   return (
-    <Select<SelectOption, true>
+    <Select<T, true>
       inputId={name}
       instanceId={name}
       className={`${css.select} ${hasError ? css.invalid : ''}`}
       classNamePrefix="multi-select"
       options={options}
       placeholder={placeholder}
+      getOptionValue={getValue}
+      getOptionLabel={getLabel}
       isMulti
       isSearchable={false}
       isClearable={false}
@@ -58,13 +62,11 @@ export default function MultiSelect({
       maxMenuHeight={200}
       aria-invalid={hasError}
       components={{
-        Option: CheckboxOption,
+        Option: CheckboxOption<T>,
         IndicatorSeparator: null,
       }}
-      value={options.filter(option => field.value.includes(option.value))}
-      onChange={selected =>
-        helpers.setValue(selected.map(option => option.value))
-      }
+      value={options.filter(option => field.value.includes(getValue(option)))}
+      onChange={selected => helpers.setValue(selected.map(getValue))}
       onBlur={() => helpers.setTouched(true)}
     />
   );

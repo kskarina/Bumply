@@ -14,7 +14,7 @@ export default async function DiaryContent({ entryId }: DiaryContentProps) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['diary'],
+    queryKey: ['diaryEntries'],
     queryFn: () => fetchDiaryNotes(),
   });
 
