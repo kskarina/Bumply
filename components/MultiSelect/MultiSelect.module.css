@@ -1,0 +1,199 @@
+.select {
+  width: 100%;
+  font-size: 14px;
+}
+
+/* Основне поле */
+
+.select :global(.multi-select__control) {
+  min-height: 44px;
+  background-color: #f0f0f0;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.select :global(.multi-select__control:hover) {
+  border-color: #bdbdbd;
+}
+
+.select :global(.multi-select__control--is-focused) {
+  border-color: #bdbdbd;
+  box-shadow: none;
+}
+
+/* Контейнер вибраних значень */
+
+.select :global(.multi-select__value-container) {
+  padding: 6px 12px;
+  gap: 4px;
+}
+
+/* Placeholder */
+
+.select :global(.multi-select__placeholder) {
+  color: #757575;
+  font-size: 14px;
+}
+
+/* Вибрані теги */
+
+.select :global(.multi-select__multi-value) {
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.select :global(.multi-select__multi-value__label) {
+  padding: 4px 0 4px 10px;
+  font-size: 12px;
+  color: #292929;
+}
+
+/* Хрестик видалення тегу */
+
+.select :global(.multi-select__multi-value__remove) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px 0 4px;
+  border-radius: 0 20px 20px 0;
+  color: #292929;
+  cursor: pointer;
+  transition: background-color 200ms ease;
+}
+
+.select :global(.multi-select__multi-value__remove:hover) {
+  background-color: #cfcfcf;
+  color: #292929;
+}
+
+.select :global(.multi-select__multi-value__remove svg) {
+  width: 14px;
+  height: 14px;
+}
+
+/* Стрілка */
+
+.select :global(.multi-select__dropdown-indicator) {
+  color: #555;
+  padding: 8px 12px;
+  transition: transform 200ms ease;
+}
+
+.select
+  :global(.multi-select__control--menu-is-open)
+  :global(.multi-select__dropdown-indicator) {
+  transform: rotate(180deg);
+}
+
+/* Випадаюче меню */
+
+.select :global(.multi-select__menu) {
+  background-color: #f0f0f0;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  margin-top: 2px;
+  box-shadow: none;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* Контейнер опцій */
+
+.select :global(.multi-select__menu-list) {
+  padding: 4px 0;
+}
+
+/* Окрема опція */
+
+.select :global(.multi-select__option) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background-color: transparent;
+  color: #292929;
+  cursor: pointer;
+}
+
+/* Опція у фокусі */
+
+.select :global(.multi-select__option--is-focused) {
+  background-color: #e8e8e8;
+}
+
+/* Вибрана опція */
+
+.select :global(.multi-select__option--is-selected) {
+  background-color: #e0e0e0;
+  color: #292929;
+}
+
+.select :global(.multi-select__option:active) {
+  background-color: #dedede;
+}
+
+/* Квадратний checkbox */
+
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin: 0;
+
+  border: 1px solid #292929;
+  border-radius: 3px;
+  background-color: transparent;
+
+  display: grid;
+  place-content: center;
+  pointer-events: none;
+}
+
+/* Вибраний checkbox */
+
+.checkbox:checked {
+  background-color: #292929;
+  border-color: #292929;
+}
+
+/* Біла галочка */
+
+.checkbox:checked::after {
+  content: '';
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: translateY(-1px) rotate(45deg);
+}
+
+/* Скролбар */
+
+.select :global(.multi-select__menu-list)::-webkit-scrollbar {
+  width: 5px;
+}
+
+.select :global(.multi-select__menu-list)::-webkit-scrollbar-track {
+  background-color: #dedede;
+  border-radius: 4px;
+}
+
+.select :global(.multi-select__menu-list)::-webkit-scrollbar-thumb {
+  background-color: #f5b9c7;
+  border-radius: 4px;
+}
+
+/* Помилка валідації */
+
+.select.invalid :global(.multi-select__control),
+.select.invalid :global(.multi-select__control:hover),
+.select.invalid :global(.multi-select__control--is-focused) {
+  border-color: #d32f2f;
+}

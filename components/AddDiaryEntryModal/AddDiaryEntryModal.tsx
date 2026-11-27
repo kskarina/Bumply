@@ -1,10 +1,20 @@
+import AddDiaryEntryForm from '../AddDiaryEntryForm/AddDiaryEntryForm';
+import Modal from '../Modal/Modal';
 import css from './AddDiaryEntryModal.module.css';
 
-// TODO: Модалка створення/редагування запису. Деталі — у ТЗ та макеті
-export default function AddDiaryEntryModal() {
+interface AddDiaryEntryModalProps {
+  onClose: () => void;
+}
+
+export default function AddDiaryEntryModal({
+  onClose,
+}: AddDiaryEntryModalProps) {
   return (
-    <section className={css.addDiaryEntryModal}>
-      <h2>AddDiaryEntryModal</h2>
-    </section>
+    <Modal onClose={onClose}>
+      <div className={css.addTaskModal}>
+        <h2 className={css.title}>Новий запис</h2>
+        <AddDiaryEntryForm onSuccess={onClose} />
+      </div>
+    </Modal>
   );
 }

@@ -1,10 +1,15 @@
+import { DiaryNote } from '@/types/diary';
 import css from './DiaryEntryCard.module.css';
 
-// TODO: Картка запису у списку. Деталі — у ТЗ та макеті
-export default function DiaryEntryCard() {
+interface DiaryEntryCardProps {
+  entry: DiaryNote;
+}
+
+export default function DiaryEntryCard({ entry }: DiaryEntryCardProps) {
   return (
     <section className={css.diaryEntryCard}>
-      <h2>DiaryEntryCard</h2>
+      <p>{entry.title}</p>
+      <p>{entry.description}</p>
     </section>
   );
 }

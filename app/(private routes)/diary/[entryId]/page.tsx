@@ -1,18 +1,17 @@
-import DiaryEntryDetails from '@/components/DiaryEntryDetails/DiaryEntryDetails';
-
 import css from './DiaryEntryPage.module.css';
+import DiaryContent from '@/components/DiaryContent/DiaryContent';
 
-type Props = {
+interface DiaryEntryPageProps {
   params: Promise<{ entryId: string }>;
-};
+}
 
 // Окрема сторінка запису для мобілки/планшета
-const DiaryEntryPage = async ({ params }: Props) => {
+const DiaryEntryPage = async ({ params }: DiaryEntryPageProps) => {
   const { entryId } = await params;
 
   return (
     <div className={css.entry} data-entry-id={entryId}>
-      <DiaryEntryDetails />
+      return <DiaryContent entryId={entryId} />;
     </div>
   );
 };
