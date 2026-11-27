@@ -19,11 +19,13 @@ export default function StatusBlock() {
     <section className={css.statusBlock}>
       <div className={css.card}>
         <p className={css.label}>Тиждень</p>
-        <p className={css.value}>{data?.curWeekToPregnant}</p>
+        <p className={css.value}>{data?.curWeekToPregnant ?? '—'}</p>
       </div>
       <div className={css.card}>
         <p className={css.label}>Днів до зустрічі</p>
-        <p className={css.value}>~{data?.daysBeforePregnant}</p>
+        <p className={css.value}>
+          {data ? `~${data.daysBeforePregnant}` : '—'}
+        </p>
       </div>
     </section>
   );
