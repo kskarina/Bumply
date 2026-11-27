@@ -1,11 +1,14 @@
 'use client';
 
+import Loading from '@/app/loading';
 import { fetchWeekBaby, fetchWeekMom } from '@/lib/api/clientApi';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BabyDetails from '../BabyDetails/BabyDetails';
-import css from './JourneyDetails.module.css';
 import MomDetails from '../MomDetails/MomDetails';
+import css from './JourneyDetails.module.css';
+import toast from 'react-hot-toast';
+import { getErrorMessage } from '@/lib/api/getErrorMessage';
 
 interface JourneyDetailsProps {
   weekNumber: number;
@@ -21,8 +24,9 @@ export default function JourneyDetails({ weekNumber }: JourneyDetailsProps) {
 
   const {
     data: baby,
-    isError: babyError,
+    isError: babyIsError,
     isLoading: babyLoading,
+    error: babyError,
   } = useQuery({
     queryKey: ['journey', 'baby', weekNumber],
     queryFn: () => fetchWeekBaby(weekNumber),
@@ -31,15 +35,22 @@ export default function JourneyDetails({ weekNumber }: JourneyDetailsProps) {
 
   const {
     data: mom,
-    isError: momError,
+    isError: momIsError,
     isLoading: momLoading,
+    error: momError,
   } = useQuery({
     queryKey: ['journey', 'mom', weekNumber],
     queryFn: () => fetchWeekMom(weekNumber),
     enabled: isMom,
   });
 
-  console.log(mom);
+  useEffect(() => {
+    if (babyIsError) toast.error(getErrorMessage(babyError));
+  }, [babyIsError, babyError]);
+
+  useEffect(() => {
+    if (momIsError) toast.error(getErrorMessage(momError));
+  }, [momIsError, momError]);
 
   return (
     <>
@@ -62,6 +73,7 @@ export default function JourneyDetails({ weekNumber }: JourneyDetailsProps) {
         </li>
       </ul>
 
+      {(babyLoading || momLoading) && <Loading />}
       {isBaby && baby && <BabyDetails baby={baby} />}
       {isMom && mom && <MomDetails mom={mom} />}
     </>

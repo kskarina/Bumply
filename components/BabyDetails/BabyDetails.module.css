@@ -47,3 +47,29 @@
   gap: 8px;
   margin-bottom: 8px;
 }
+
+@media screen and (min-width: 1440px) {
+  .infoWrapper {
+    display: flex;
+    gap: 32px;
+  }
+
+  .inner:first-child {
+    width: 461px;
+    flex-shrink: 0;
+  }
+
+  .babyTitle,
+  .babyDescription,
+  .babyFactDescr {
+    font-size: 16px;
+  }
+
+  .babyTitle {
+    margin-bottom: 0;
+  }
+
+  .babyFactTitle {
+    font-size: 16px;
+  }
+}

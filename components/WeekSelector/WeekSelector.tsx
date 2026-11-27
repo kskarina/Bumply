@@ -10,7 +10,6 @@ interface WeekSelectorProps {
   weekNumber: number;
 }
 
-// TODO: Шкала вибору тижня з горизонтальним скролом. Деталі — у ТЗ та макеті
 export default function WeekSelector({ weekNumber }: WeekSelectorProps) {
   const items = [];
   const user = useAuthStore(s => s.user);
@@ -34,6 +33,10 @@ export default function WeekSelector({ weekNumber }: WeekSelectorProps) {
           href={`/journey/${i}`}
           className={linkClass}
           aria-disabled={isDisabled}
+          tabIndex={isDisabled ? -1 : undefined}
+          onClick={e => {
+            if (isDisabled) e.preventDefault();
+          }}
         >
           <span className={css.counter}>{i}</span> Тиждень
         </Link>
@@ -42,10 +45,8 @@ export default function WeekSelector({ weekNumber }: WeekSelectorProps) {
   }
   return (
     <Swiper
-      direction="horizontal"
       slidesPerView="auto"
       spaceBetween={16}
-      freeMode={true}
       initialSlide={weekNumber - 1}
       className={css.weekList}
       centeredSlides={true}
