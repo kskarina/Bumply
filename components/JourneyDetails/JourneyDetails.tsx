@@ -24,8 +24,9 @@ export default function JourneyDetails({ weekNumber }: JourneyDetailsProps) {
 
   const {
     data: baby,
-    isError: babyError,
+    isError: babyIsError,
     isLoading: babyLoading,
+    error: babyError,
   } = useQuery({
     queryKey: ['journey', 'baby', weekNumber],
     queryFn: () => fetchWeekBaby(weekNumber),
@@ -34,8 +35,9 @@ export default function JourneyDetails({ weekNumber }: JourneyDetailsProps) {
 
   const {
     data: mom,
-    isError: momError,
+    isError: momIsError,
     isLoading: momLoading,
+    error: momError,
   } = useQuery({
     queryKey: ['journey', 'mom', weekNumber],
     queryFn: () => fetchWeekMom(weekNumber),
@@ -43,14 +45,12 @@ export default function JourneyDetails({ weekNumber }: JourneyDetailsProps) {
   });
 
   useEffect(() => {
-    if (babyError) toast.error(getErrorMessage(babyError));
-  }, [babyError]);
+    if (babyIsError) toast.error(getErrorMessage(babyError));
+  }, [babyIsError, babyError]);
 
   useEffect(() => {
-    if (momError) toast.error(getErrorMessage(momError));
-  }, [momError]);
-
-  console.log(mom);
+    if (momIsError) toast.error(getErrorMessage(momError));
+  }, [momIsError, momError]);
 
   return (
     <>

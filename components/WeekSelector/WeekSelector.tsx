@@ -33,6 +33,10 @@ export default function WeekSelector({ weekNumber }: WeekSelectorProps) {
           href={`/journey/${i}`}
           className={linkClass}
           aria-disabled={isDisabled}
+          tabIndex={isDisabled ? -1 : undefined}
+          onClick={e => {
+            if (isDisabled) e.preventDefault();
+          }}
         >
           <span className={css.counter}>{i}</span> Тиждень
         </Link>

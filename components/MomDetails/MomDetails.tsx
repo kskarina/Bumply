@@ -12,7 +12,7 @@ export default function MomDetails({ mom }: MomDetailsProps) {
   return (
     <div className={css.container}>
       <div className={css.details}>
-        <div className={css.infoWrapper}>
+        <div className={css.feel}>
           <h3 className={css.title}>Як ви можете почуватись</h3>
           <ul className={css.feelList}>
             {mom.feelings.states.map((feel, index) => (

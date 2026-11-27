@@ -4,13 +4,14 @@
   gap: 24px;
 }
 
-.infoWrapper {
+.infoWrapper,
+.feel {
   background-color: var(--color-scheme-foreground);
   border-radius: 32px;
   padding: 24px;
 }
 
-.infoWrapper:not(:last-child) {
+.feel {
   margin-bottom: 24px;
 }
 
@@ -76,6 +77,16 @@
   .details {
     flex-grow: 1;
     width: 650px;
+  }
+
+  .feel {
+    height: 194px;
+    overflow-y: auto;
+  }
+
+  .infoWrapper {
+    height: 322px;
+    overflow-y: auto;
   }
 
   .title {
