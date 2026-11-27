@@ -23,6 +23,7 @@ export default function BabyTodayCard() {
               alt="Малюк цього тижня"
               width={257}
               height={194}
+              priority
               className={css.image}
             />
             <div className={css.info}>
