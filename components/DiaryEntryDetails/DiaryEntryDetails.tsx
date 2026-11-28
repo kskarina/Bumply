@@ -6,6 +6,11 @@ import Loader from '../Loader/Loader';
 import Icon from '../Icon/Icon';
 import AddDiaryEntryModal from '../AddDiaryEntryModal/AddDiaryEntryModal';
 import { useState } from 'react';
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteDiaryNote } from '@/lib/api/clientApi';
+import toast from 'react-hot-toast';
+import { getErrorMessage } from '@/lib/api/getErrorMessage';
 
 interface DiaryEntryDetailsProps {
   entry?: DiaryNote;
@@ -17,6 +22,18 @@ export default function DiaryEntryDetails({
   isLoading = false,
 }: DiaryEntryDetailsProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: (id: string) => deleteDiaryNote(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['diaryEntries'] });
+      setIsConfirmOpen(false);
+    },
+    onError: error => toast.error(getErrorMessage(error)),
+  });
 
   if (isLoading) {
     return <Loader />;
@@ -48,6 +65,7 @@ export default function DiaryEntryDetails({
             type="button"
             className={css.iconButton}
             aria-label="Видалити запис"
+            onClick={() => setIsConfirmOpen(true)}
           >
             <Icon name="delete-forever" />
           </button>
@@ -71,6 +89,15 @@ export default function DiaryEntryDetails({
         <AddDiaryEntryModal
           editEntry={entry}
           onClose={() => setIsModalOpen(false)}
+        />
+      )}
+      {isConfirmOpen && (
+        <ConfirmationModal
+          title="Ви впевнені, що хочете видалити цей запис?"
+          confirmButtonText="Так"
+          cancelButtonText="Ні"
+          onConfirm={() => mutate(entry?._id)}
+          onCancel={() => setIsConfirmOpen(false)}
         />
       )}
     </section>
