@@ -1,8 +1,9 @@
 'use client';
 
 import Select, { components } from 'react-select';
-import type { OptionProps } from 'react-select';
+import type { MenuListProps, OptionProps } from 'react-select';
 import { useField } from 'formik';
+import { useEffect, useRef } from 'react';
 import css from './MultiSelect.module.css';
 
 interface MultiSelectProps<T> {
@@ -11,6 +12,15 @@ interface MultiSelectProps<T> {
   valueKey: keyof T;
   labelKey: keyof T;
   placeholder?: string;
+  hasNextPage?: boolean;
+  onLoadMore?: () => void;
+  isLoading?: boolean;
+}
+
+interface InfiniteSelectProps {
+  hasNextPage?: boolean;
+  onLoadMore?: () => void;
+  isLoadingMore?: boolean;
 }
 
 function CheckboxOption<T>(props: OptionProps<T, true>) {
@@ -30,12 +40,47 @@ function CheckboxOption<T>(props: OptionProps<T, true>) {
   );
 }
 
+function InfiniteMenuList<T>(props: MenuListProps<T, true>) {
+  const { children, selectProps, ...menuListProps } = props;
+  const { hasNextPage, onLoadMore, isLoadingMore } = selectProps as typeof selectProps & InfiniteSelectProps;
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const target = loadMoreRef.current;
+    const root = target?.parentElement;
+
+    if (!target || !root || !hasNextPage || !onLoadMore) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting && !isLoadingMore) {
+          onLoadMore();
+        }
+      },
+      { root, rootMargin: '40px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [hasNextPage, isLoadingMore, onLoadMore]);
+
+  return (
+    <components.MenuList {...menuListProps} selectProps={selectProps}>
+      {children}
+      {hasNextPage && <div ref={loadMoreRef} aria-hidden="true" />}
+    </components.MenuList>
+  );
+}
+
 export default function MultiSelect<T>({
   name,
   options,
   valueKey,
   labelKey,
   placeholder = 'Оберіть значення',
+  hasNextPage = false,
+  onLoadMore,
+  isLoading = false,
 }: MultiSelectProps<T>) {
   const [field, meta, helpers] = useField<string[]>(name);
 
@@ -51,6 +96,11 @@ export default function MultiSelect<T>({
       className={`${css.select} ${hasError ? css.invalid : ''}`}
       classNamePrefix="multi-select"
       options={options}
+      {...({
+        hasNextPage,
+        onLoadMore,
+        isLoadingMore: isLoading,
+      } satisfies InfiniteSelectProps)}
       placeholder={placeholder}
       getOptionValue={getValue}
       getOptionLabel={getLabel}
@@ -60,9 +110,11 @@ export default function MultiSelect<T>({
       closeMenuOnSelect={false}
       hideSelectedOptions={false}
       maxMenuHeight={200}
+      isLoading={isLoading}
       aria-invalid={hasError}
       components={{
         Option: CheckboxOption<T>,
+        MenuList: InfiniteMenuList,
         IndicatorSeparator: null,
       }}
       value={options.filter(option => field.value.includes(getValue(option)))}

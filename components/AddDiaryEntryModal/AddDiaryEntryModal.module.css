@@ -1,7 +1,6 @@
 .addDiaryEntryModal {
   padding: 16px;
   border-radius: var(--radius);
-  background-color: var(--color-surface);
 }
 
 .title {
@@ -15,4 +14,27 @@
   letter-spacing: 0.01em;
   text-align: center;
   color: var(--color-scheme-text);
+}
+
+@media (min-width: 768px) {
+  [role='dialog']:has(.addDiaryEntryModal) {
+    max-width: 704px;
+    padding: 64px 32px;
+  }
+
+  [role='dialog']:has(.addDiaryEntryModal) > button {
+    top: 24px;
+    right: 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .title {
+    font-size: 48px;
+  }
+
+  [role='dialog']:has(.addDiaryEntryModal) {
+    max-width: 768px;
+    padding: 64px;
+  }
 }

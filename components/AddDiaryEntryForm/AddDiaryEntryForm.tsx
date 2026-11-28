@@ -11,7 +11,11 @@ import {
   fetchEmotions,
   updateDiaryNote,
 } from '@/lib/api/clientApi';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import Loader from '../Loader/Loader';
 import { getErrorMessage } from '@/lib/api/getErrorMessage';
 import { useEffect } from 'react';
@@ -22,6 +26,8 @@ interface AddDiaryEntryFormProps {
   onSuccess: () => void;
   editEntry?: DiaryNote;
 }
+
+const EMOTIONS_PER_PAGE = 10;
 
 // обмеження з документації бекенду: назва 1–96 символів, дата не в минулому
 const validationSchema = Yup.object({
@@ -55,12 +61,30 @@ export default function AddDiaryEntryForm({
     data,
     isError,
     isPending: isPendingEmotion,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
     error,
-  } = useQuery({
+  } = useInfiniteQuery({
     queryKey: ['emotions'],
-    queryFn: () => fetchEmotions({ limit: 10 }),
+    queryFn: ({ pageParam }) =>
+      fetchEmotions({ page: pageParam, limit: EMOTIONS_PER_PAGE }),
+    initialPageParam: 1,
+    getNextPageParam: lastPage =>
+      lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
     staleTime: 1000 * 60 * 60,
   });
+
+  const emotions = (data?.pages.flatMap(page => page.emotions) ?? []).filter(
+    (emotion, index, allEmotions) =>
+      allEmotions.findIndex(item => item._id === emotion._id) === index
+  );
+
+  const handleEmotionsMenuEnd = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
 
   const mutationFn = editEntry
     ? (data: DiaryNoteData) => updateDiaryNote(editEntry._id, data)
@@ -104,8 +128,11 @@ export default function AddDiaryEntryForm({
             name="emotions"
             valueKey="_id"
             labelKey="title"
-            options={data?.emotions || []}
+            options={emotions}
             placeholder="Оберіть категорію"
+            hasNextPage={hasNextPage}
+            onLoadMore={handleEmotionsMenuEnd}
+            isLoading={isFetchingNextPage}
           />
           <ErrorMessage
             name="emotions"

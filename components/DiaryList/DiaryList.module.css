@@ -41,11 +41,27 @@
   gap: 16px;
 }
 
+.loadMore {
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media screen and (min-width: 768px) {
 }
 
 @media screen and (min-width: 1440px) {
   .diaryList {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     height: 100%;
+  }
+
+  .list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
   }
 }
