@@ -17,12 +17,15 @@
 ## Технології
 
 - [Next.js 15](https://nextjs.org/) (App Router) + React 19 + TypeScript
-- CSS Modules, [modern-normalize](https://github.com/sindresorhus/modern-normalize)
+- CSS Modules, [modern-normalize](https://github.com/sindresorhus/modern-normalize), [clsx](https://github.com/lukeed/clsx)
 - [Zustand](https://zustand.docs.pmnd.rs/) — стан авторизації
 - [TanStack Query](https://tanstack.com/query) — запити і кешування даних
 - [Axios](https://axios-http.com/)
 - [Formik](https://formik.org/) + [Yup](https://github.com/jquense/yup) — форми і валідація
 - [react-hot-toast](https://react-hot-toast.com/) — сповіщення
+- [react-select](https://react-select.com/) — вибір емоцій у щоденнику
+- [React Datepicker](https://reactdatepicker.com/) — вибір дат
+- [Swiper](https://swiperjs.com/) — слайдер тижнів на сторінці подорожі
 
 Бекенд: [lehlehka.b.goit.study/api-docs](https://lehlehka.b.goit.study/api-docs)
 Макет: Figma · ТЗ: Google Sheets
@@ -86,7 +89,7 @@ public/
 types/                           типи: user, task, diary, emotion, week, common
 ```
 
-Стилі сторінки лежать поруч із нею й називаються за сторінкою: `DashboardPage.module.css`, `DiaryPage.module.css` тощо.
+Стилі сторінки лежать поруч із нею й називаються за сторінкою: `DashboardPage.module.css`, `ProfilePage.module.css` тощо.
 Код форматуємо Prettier за `.prettierrc.json`.
 
 ### Кольори, шрифти і типографіка

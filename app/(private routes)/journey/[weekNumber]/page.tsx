@@ -3,7 +3,6 @@ import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
 import WeekSelector from '@/components/WeekSelector/WeekSelector';
 
 import { Metadata } from 'next';
-import css from './JourneyPage.module.css';
 
 type Props = {
   params: Promise<{ weekNumber: string }>;
@@ -43,7 +42,7 @@ const JourneyPage = async ({ params }: Props) => {
   const { weekNumber } = await params;
 
   return (
-    <div className={css.journey}>
+    <div>
       <GreetingBlock />
       <WeekSelector weekNumber={Number(weekNumber)} />
       <JourneyDetails weekNumber={Number(weekNumber)} />
