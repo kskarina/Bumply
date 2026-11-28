@@ -1,55 +1,89 @@
 .select {
   width: 100%;
+  font-family: 'Lato', sans-serif;
   font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text);
 }
 
 /* Основне поле */
 
 .select :global(.multi-select__control) {
-  min-height: 44px;
-  background-color: #f0f0f0;
-  border: 1px solid #dedede;
-  border-radius: 8px;
+  box-sizing: border-box;
+  min-height: 48px;
+
+  padding: 8px 12px;
+  gap: 8px;
+
+  background-color: var(--color-neutral-lightest);
+  border: 1px solid transparent;
+  border-radius: 12px;
   box-shadow: none;
+
   cursor: pointer;
 }
 
 .select :global(.multi-select__control:hover) {
-  border-color: #bdbdbd;
+  border-color: var(--color-border);
 }
 
 .select :global(.multi-select__control--is-focused) {
-  border-color: #bdbdbd;
+  border-color: var(--color-border);
   box-shadow: none;
+}
+
+/* Основне поле при відкритому меню */
+
+.select :global(.multi-select__control--menu-is-open) {
+  background-color: var(--color-input-bg);
+  border-color: var(--color-border);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 /* Контейнер вибраних значень */
 
 .select :global(.multi-select__value-container) {
-  padding: 6px 12px;
-  gap: 4px;
+  padding: 0;
+  gap: 10px;
+}
+
+/* Поле введення react-select */
+
+.select :global(.multi-select__input-container) {
+  margin: 0;
+  padding: 0;
+  color: var(--color-text);
 }
 
 /* Placeholder */
 
 .select :global(.multi-select__placeholder) {
-  color: #757575;
+  margin: 0;
+  color: var(--color-text);
   font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 /* Вибрані теги */
 
 .select :global(.multi-select__multi-value) {
-  background-color: #e0e0e0;
-  border-radius: 20px;
+  background-color: var(--opacity-neutral-darkest-5);
+  border: 1px solid transparent;
+  border-radius: 100px;
   margin: 0;
   overflow: hidden;
 }
 
 .select :global(.multi-select__multi-value__label) {
   padding: 4px 0 4px 10px;
-  font-size: 12px;
-  color: #292929;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text);
 }
 
 /* Хрестик видалення тегу */
@@ -58,16 +92,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 0 8px 0 4px;
-  border-radius: 0 20px 20px 0;
-  color: #292929;
+  border-radius: 0 100px 100px 0;
+
+  color: var(--color-text);
   cursor: pointer;
+
   transition: background-color 200ms ease;
 }
 
 .select :global(.multi-select__multi-value__remove:hover) {
-  background-color: #cfcfcf;
-  color: #292929;
+  background-color: var(--opacity-neutral-darkest-10);
+  color: var(--color-text);
 }
 
 .select :global(.multi-select__multi-value__remove svg) {
@@ -78,9 +115,19 @@
 /* Стрілка */
 
 .select :global(.multi-select__dropdown-indicator) {
-  color: #555;
-  padding: 8px 12px;
+  padding: 0;
+  color: var(--color-text);
+
   transition: transform 200ms ease;
+}
+
+.select :global(.multi-select__dropdown-indicator svg) {
+  width: 24px;
+  height: 24px;
+}
+
+.select :global(.multi-select__dropdown-indicator:hover) {
+  color: var(--color-text);
 }
 
 .select
@@ -89,13 +136,22 @@
   transform: rotate(180deg);
 }
 
+/* Приховуємо роздільник */
+
+.select :global(.multi-select__indicator-separator) {
+  display: none;
+}
+
 /* Випадаюче меню */
 
 .select :global(.multi-select__menu) {
-  background-color: #f0f0f0;
-  border: 1px solid #dedede;
-  border-radius: 8px;
-  margin-top: 2px;
+  box-sizing: border-box;
+
+  background-color: var(--color-neutral-lightest);
+  border: 1px solid var(--color-border);
+  border-radius: 0 0 12px 12px;
+
+  margin: 0;
   box-shadow: none;
   overflow: hidden;
   z-index: 10;
@@ -104,7 +160,16 @@
 /* Контейнер опцій */
 
 .select :global(.multi-select__menu-list) {
-  padding: 4px 0;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  max-height: 218px;
+  padding: 8px 0;
+
+  overflow-y: auto;
 }
 
 /* Окрема опція */
@@ -112,81 +177,96 @@
 .select :global(.multi-select__option) {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   gap: 8px;
-  padding: 10px 12px;
+
+  padding: 8px 12px;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+
   background-color: transparent;
-  color: #292929;
+  color: var(--color-text);
+
   cursor: pointer;
 }
 
 /* Опція у фокусі */
 
 .select :global(.multi-select__option--is-focused) {
-  background-color: #e8e8e8;
+  background-color: var(--opacity-neutral-darkest-5);
 }
 
 /* Вибрана опція */
 
 .select :global(.multi-select__option--is-selected) {
-  background-color: #e0e0e0;
-  color: #292929;
+  background-color: var(--opacity-neutral-darkest-5);
+  color: var(--color-text);
 }
 
 .select :global(.multi-select__option:active) {
-  background-color: #dedede;
+  background-color: var(--opacity-neutral-darkest-10);
 }
 
-/* Квадратний checkbox */
+/* Checkbox */
 
 .checkbox {
   appearance: none;
   -webkit-appearance: none;
+  box-sizing: border-box;
 
   width: 18px;
   height: 18px;
   flex-shrink: 0;
   margin: 0;
 
-  border: 1px solid #292929;
-  border-radius: 3px;
-  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: var(--opacity-neutral-darkest-5);
 
   display: grid;
   place-content: center;
+
   pointer-events: none;
 }
 
 /* Вибраний checkbox */
 
 .checkbox:checked {
-  background-color: #292929;
-  border-color: #292929;
+  background-color: var(--color-text);
+  border-color: var(--color-text);
 }
 
 /* Біла галочка */
 
 .checkbox:checked::after {
   content: '';
+
   width: 5px;
   height: 9px;
-  border: solid #fff;
+
+  border: solid var(--color-white);
   border-width: 0 2px 2px 0;
+
   transform: translateY(-1px) rotate(45deg);
 }
 
 /* Скролбар */
 
 .select :global(.multi-select__menu-list)::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
 }
 
 .select :global(.multi-select__menu-list)::-webkit-scrollbar-track {
-  background-color: #dedede;
+  background-color: var(--opacity-neutral-darkest-20);
   border-radius: 4px;
+  border: 2px solid var(--color-neutral-lightest);
 }
 
 .select :global(.multi-select__menu-list)::-webkit-scrollbar-thumb {
-  background-color: #f5b9c7;
+  background-color: var(--color-accent);
   border-radius: 4px;
 }
 
@@ -195,5 +275,5 @@
 .select.invalid :global(.multi-select__control),
 .select.invalid :global(.multi-select__control:hover),
 .select.invalid :global(.multi-select__control--is-focused) {
-  border-color: #d32f2f;
+  border-color: var(--color-error);
 }

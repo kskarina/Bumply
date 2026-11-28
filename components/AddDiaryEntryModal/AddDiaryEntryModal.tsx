@@ -14,7 +14,7 @@ export default function AddDiaryEntryModal({
 }: AddDiaryEntryModalProps) {
   return (
     <Modal onClose={onClose}>
-      <div className={css.addTaskModal}>
+      <div className={css.addDiaryEntryModal}>
         <h2 className={css.title}>
           {editEntry ? 'Редагувати запис' : 'Новий запис'}
         </h2>

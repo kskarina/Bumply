@@ -11,8 +11,8 @@
 
 .modal {
   position: relative;
+  box-sizing: border-box;
   width: 100%;
-  max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
   padding: 40px 20px 32px;

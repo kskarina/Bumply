@@ -35,7 +35,6 @@ export default function FeelingCheckCard() {
         Зробити запис у щоденник
       </button>
 
-      {/* TODO: передати onClose, коли AddDiaryEntryModal буде готова */}
       {isModalOpen && (
         <AddDiaryEntryModal onClose={() => setIsModalOpen(false)} />
       )}
