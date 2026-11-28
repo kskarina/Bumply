@@ -1,5 +1,8 @@
+/* макет розрахований на 1440px — на ширших екранах тримаємо сайт по центру */
 .shell {
+  max-width: 1440px;
   min-height: 100vh;
+  margin: 0 auto;
 }
 
 .content {

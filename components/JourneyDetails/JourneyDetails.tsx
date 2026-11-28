@@ -16,7 +16,6 @@ interface JourneyDetailsProps {
 
 type Person = 'baby' | 'mom';
 
-// TODO: Таби "Розвиток малюка" / "Тіло мами". Деталі — у ТЗ та макеті
 export default function JourneyDetails({ weekNumber }: JourneyDetailsProps) {
   const [person, setPerson] = useState<Person>('baby');
   const isBaby = person === 'baby';
