@@ -7,12 +7,13 @@ import css from './DiaryContent.module.css';
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDiaryNotes } from '@/lib/api/clientApi';
-import Loader from '../Loader/Loader';
 import { useEffect } from 'react';
 import { getErrorMessage } from '@/lib/api/getErrorMessage';
 import toast from 'react-hot-toast';
 
 export default function DiaryContentClient() {
+  const { entryId } = useParams<{ entryId: string }>();
+
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['diaryEntries'],
     queryFn: () => fetchDiaryNotes(),
@@ -26,23 +27,26 @@ export default function DiaryContentClient() {
   }, [isError, error]);
 
   const entries = data?.diaryNotes ?? [];
-  const { entryId } = useParams<{ entryId: string }>;
-  console.log(entries);
 
-  const selectedEntry = undefined;
+  const selectedEntry =
+    entries.find(entry => entry._id === entryId) ?? entries[0];
+
   return (
     <div
-      className={`${css.diary} ${selectedEntry ? css.detailsRoute : css.listRoute}`}
+      className={`${css.diary} ${entryId ? css.detailsRoute : css.listRoute}`}
     >
       <GreetingBlock />
       <div className={css.diaryWrapper}>
-        {isLoading && <Loader fullScreen={true} />}
         <div className={css.diaryList}>
-          <DiaryList entries={entries} selectedEntryId={entryId} />
+          <DiaryList
+            entries={entries}
+            selectedEntryId={selectedEntry?._id}
+            isLoading={isLoading}
+          />
         </div>
 
         <div className={css.diaryDetails}>
-          <DiaryEntryDetails entry={selectedEntry} />
+          <DiaryEntryDetails entry={selectedEntry} isLoading={isLoading} />
         </div>
       </div>
     </div>

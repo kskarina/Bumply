@@ -1,12 +1,16 @@
 'use client';
 
-import { Formik, Form, Field, type FormikHelpers, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 import * as Yup from 'yup';
 import css from './AddDiaryEntryForm.module.css';
-import { DiaryNoteData } from '@/types/diary';
+import { DiaryNote, DiaryNoteData } from '@/types/diary';
 import MultiSelect from '../MultiSelect/MultiSelect';
-import { createDiaryNote, fetchEmotions } from '@/lib/api/clientApi';
+import {
+  createDiaryNote,
+  fetchEmotions,
+  updateDiaryNote,
+} from '@/lib/api/clientApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Loader from '../Loader/Loader';
 import { getErrorMessage } from '@/lib/api/getErrorMessage';
@@ -16,6 +20,7 @@ import { Emotion } from '@/types/emotion';
 
 interface AddDiaryEntryFormProps {
   onSuccess: () => void;
+  editEntry?: DiaryNote;
 }
 
 // обмеження з документації бекенду: назва 1–96 символів, дата не в минулому
@@ -34,15 +39,16 @@ const validationSchema = Yup.object({
     .required('Введіть опис запису'),
 });
 
-const initialValues: DiaryNoteData = {
-  title: '',
-  emotions: [],
-  description: '',
-};
-
 export default function AddDiaryEntryForm({
   onSuccess,
+  editEntry,
 }: AddDiaryEntryFormProps) {
+  const initialValues: DiaryNoteData = {
+    title: editEntry?.title ?? '',
+    emotions: editEntry?.emotions.map(item => item._id) ?? [],
+    description: editEntry?.description ?? '',
+  };
+
   const queryClient = useQueryClient();
 
   const {
@@ -56,8 +62,12 @@ export default function AddDiaryEntryForm({
     staleTime: 1000 * 60 * 60,
   });
 
+  const mutationFn = editEntry
+    ? (data: DiaryNoteData) => updateDiaryNote(editEntry._id, data)
+    : (data: DiaryNoteData) => createDiaryNote(data);
+
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: DiaryNoteData) => createDiaryNote(data),
+    mutationFn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['diaryEntries'] });
       onSuccess();
@@ -71,57 +81,63 @@ export default function AddDiaryEntryForm({
     }
   }, [isError, error]);
 
-  // const handleSubmit = (
-  //   values: DiaryNoteData,
-  //   actions: FormikHelpers<DiaryNoteData>
-  // ) => {
-  //   onSuccess();
-  //   actions.resetForm();
-  // };
-
   return (
-    <>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={mutate}
-        validationSchema={validationSchema}
-      >
-        <Form className={css.form}>
-          <label>
-            Заголовок
-            <Field name="title" className={css.field} />
-          </label>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={mutate}
+      validationSchema={validationSchema}
+    >
+      <Form className={css.form}>
+        <label>
+          Заголовок
+          <Field
+            name="title"
+            className={css.field}
+            placeholder="Введіть заголовок запису"
+          />
           <ErrorMessage name="title" component="span" className={css.error} />
-          <label>
-            Категорії
-            <MultiSelect<Emotion>
-              name="emotions"
-              valueKey="_id"
-              labelKey="title"
-              options={data?.emotions || []}
-              placeholder="Оберіть категорію"
-            />
-          </label>
+        </label>
+
+        <label>
+          Категорії
+          <MultiSelect<Emotion>
+            name="emotions"
+            valueKey="_id"
+            labelKey="title"
+            options={data?.emotions || []}
+            placeholder="Оберіть категорію"
+          />
           <ErrorMessage
             name="emotions"
             component="span"
             className={css.error}
           />
-          <label>
-            Запис
-            <Field as="textarea" name="description" className={css.field} />
-          </label>
+        </label>
+
+        <label>
+          Запис
+          <Field
+            as="textarea"
+            name="description"
+            className={css.field}
+            placeholder="Запишіть, як ви себе відчуваєте"
+          />
           <ErrorMessage
             name="description"
             component="span"
             className={css.error}
           />
-          <button type="submit" className={css.btn}>
-            Зберегти
-          </button>
-          {(isPending || isPendingEmotion) && <Loader fullScreen />}
-        </Form>
-      </Formik>
-    </>
+        </label>
+
+        <button
+          type="submit"
+          className={css.btn}
+          disabled={isPending || isPendingEmotion}
+        >
+          Зберегти
+        </button>
+        {(isPending || isPendingEmotion) && <Loader fullScreen />}
+      </Form>
+    </Formik>
   );
 }

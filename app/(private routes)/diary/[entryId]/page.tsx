@@ -11,7 +11,7 @@ const DiaryEntryPage = async ({ params }: DiaryEntryPageProps) => {
 
   return (
     <div className={css.entry} data-entry-id={entryId}>
-      return <DiaryContent entryId={entryId} />;
+      <DiaryContent />
     </div>
   );
 };

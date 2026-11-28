@@ -6,11 +6,7 @@ import {
 import { fetchDiaryNotes } from '@/lib/api/clientApi';
 import DiaryContentClient from './DiaryContent.client';
 
-interface DiaryContentProps {
-  entryId?: string;
-}
-
-export default async function DiaryContent({ entryId }: DiaryContentProps) {
+export default async function DiaryContent() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({

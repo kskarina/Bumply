@@ -1,7 +1,24 @@
 .diaryList {
-  padding: 16px;
+  padding: 24px 16px;
   border-radius: var(--radius);
-  background-color: var(--color-surface);
+  background: var(--color-scheme-foreground);
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.headerTitle {
+  font-weight: 700;
+  font-size: 20px;
+
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--color-scheme-text);
 }
 
 .btn {
@@ -13,17 +30,22 @@
   font-size: 16px;
 
   line-height: 1.6;
-  color: var(--color-scheme-text);
+  background-color: transparent;
+}
+
+.list {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 16px;
 }
 
 @media screen and (min-width: 768px) {
-  .profile {
-    max-width: 704px;
-  }
 }
 
 @media screen and (min-width: 1440px) {
-  .profile {
-    max-width: 580px;
+  .diaryList {
+    height: 100%;
   }
 }

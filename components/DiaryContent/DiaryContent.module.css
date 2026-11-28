@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: row;
   gap: 20px;
+  width: 100%;
 }
 
 .diary {
@@ -34,5 +35,17 @@
 
   .listRoute .diaryDetails {
     display: block;
+  }
+
+  .diaryList {
+    width: 40%;
+    height: 727px;
+    flex-shrink: 0;
+  }
+
+  .diaryDetails {
+    flex-grow: 1;
+    min-width: 0;
+    height: 727px;
   }
 }
