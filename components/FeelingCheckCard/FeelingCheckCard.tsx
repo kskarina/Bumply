@@ -36,7 +36,9 @@ export default function FeelingCheckCard() {
       </button>
 
       {/* TODO: передати onClose, коли AddDiaryEntryModal буде готова */}
-      {isModalOpen && <AddDiaryEntryModal />}
+      {isModalOpen && (
+        <AddDiaryEntryModal onClose={() => setIsModalOpen(false)} />
+      )}
     </section>
   );
 }
