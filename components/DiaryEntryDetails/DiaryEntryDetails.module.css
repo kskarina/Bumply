@@ -8,7 +8,7 @@
   padding: 24px;
   box-sizing: border-box;
 
-  background-color: #fff4f6;
+  background-color: var(--color-scheme-foreground);
   border-radius: 32px;
   color: #000;
 }
@@ -107,7 +107,7 @@
 .emotion {
   padding: 4px 10px;
 
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: --opacity-neutral-darkest-5;
   border: 1px solid transparent;
   border-radius: 100px;
 
