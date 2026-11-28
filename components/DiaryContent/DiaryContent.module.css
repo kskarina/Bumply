@@ -1,0 +1,51 @@
+.diaryWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+}
+
+.diary {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.diaryList {
+  width: 100%;
+}
+
+.diaryDetails {
+  width: 100%;
+}
+
+/* За замовчуванням — мобільний і планшет */
+.detailsRoute .diaryList {
+  display: none;
+}
+
+.listRoute .diaryDetails {
+  display: none;
+}
+
+@media screen and (min-width: 1440px) {
+  .detailsRoute .diaryList {
+    display: block;
+  }
+
+  .listRoute .diaryDetails {
+    display: block;
+  }
+
+  .diaryList {
+    width: 40%;
+    height: 727px;
+    flex-shrink: 0;
+  }
+
+  .diaryDetails {
+    flex-grow: 1;
+    min-width: 0;
+    height: 727px;
+  }
+}

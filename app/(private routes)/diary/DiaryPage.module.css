@@ -8,7 +8,21 @@
   display: none;
 }
 
+/* За замовчуванням — мобільний і планшет */
+.detailsRoute .diaryList {
+  display: none;
+}
+
+.listRoute .diaryDetails {
+  display: none;
+}
+
 @media screen and (min-width: 1440px) {
+  .diaryDetails {
+    display: block;
+  }
+
+  .diaryList,
   .diaryDetails {
     display: block;
   }

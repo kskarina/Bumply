@@ -1,5 +1,75 @@
+.link {
+  display: block;
+  width: 100%;
+}
+
 .diaryEntryCard {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
+
+  width: 100%;
+
+  border: 1px solid var(--color-scheme-foreground-alt);
+  border-radius: 16px;
   padding: 16px;
-  border-radius: var(--radius);
-  background-color: var(--color-surface);
+
+  background: var(--color-scheme-foreground-alt);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+
+  width: 100%;
+}
+
+.title {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 16px;
+
+  line-height: 1.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-scheme-text);
+}
+
+.date {
+  font-weight: 400;
+  font-size: 12px;
+
+  line-height: 1.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-scheme-text);
+}
+
+.emotions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.emotion {
+  max-width: 100%;
+  overflow: hidden;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-pastel-pink-lightest);
+  font-size: 12px;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.active {
+  border: solid 1px var(--color-scheme-text);
+  border-radius: 16px;
 }

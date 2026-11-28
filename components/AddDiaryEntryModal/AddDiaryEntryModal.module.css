@@ -3,3 +3,16 @@
   border-radius: var(--radius);
   background-color: var(--color-surface);
 }
+
+.title {
+  margin-bottom: 20px;
+
+  font-weight: 700;
+  font-size: 36px;
+
+  /* line-height: 43px; */
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: var(--color-scheme-text);
+}
